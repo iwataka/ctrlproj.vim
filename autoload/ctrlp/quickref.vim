@@ -73,6 +73,18 @@ fu! s:contains(list, item)
     retu 0
 endf
 
+fu! s:grep_with_prompt(path)
+    let l:keyword = input('Keyword? ')
+    if exists('g:ctrlp_quickref_grepprg') && g:ctrlp_quickref_grepprg != ''
+        let l:tmp_grepprg = &grepprg
+        let &grepprg = g:ctrlp_quickref_grepprg
+    endif
+    sil exe 'normal! :grep '."\'".l:keyword."\'".' '.a:path."\<cr>"
+    if exists('l:tmp_grepprg')
+        let &grepprg = l:tmp_grepprg
+    endif
+endf
+
 call add(g:ctrlp_ext_vars, {
     \ 'init': 'ctrlp#quickref#init()',
     \ 'accept': 'ctrlp#quickref#accept',
@@ -87,8 +99,12 @@ endf
 
 fu! ctrlp#quickref#accept(mode, str)
     call ctrlp#exit()
-    let g:ctrlp_quickref_last_dir = a:str
-    call ctrlp#init(ctrlp#reference#id(), {'dir': a:str})
+    if a:mode == 'h'
+        cal s:grep_with_prompt(a:str)
+    else
+        let g:ctrlp_quickref_last_dir = a:str
+        call ctrlp#init(ctrlp#reference#id(), {'dir': a:str})
+    endif
 endf
 
 let s:id = g:ctrlp_builtins + len(g:ctrlp_ext_vars)
