@@ -19,6 +19,10 @@ if !exists('g:ctrlp_quickref_configuration_file')
     let g:ctrlp_quickref_configuration_file = '~/.vim/.ctrlp-quickref'
 en
 
+if !exists('g:ctrlp_quickref_move_with_autoremove')
+    let g:ctrlp_quickref_move_with_autoremove = 1
+en
+
 if !exists('g:ctrlp_quickref_rootmarker_dirs')
     let g:ctrlp_quickref_rootmarker_dirs = [
         \ '.git',
@@ -69,8 +73,8 @@ fu! ctrlp#quickref#root(path)
     retu ''
 endf
 
-" Note that this chanegs the current directory to the 'path'
-fu! s:files(path)
+" Note that this chanegs the current directory.
+fu! ctrlp#quickref#files(path)
     let l:fullpath = fnamemodify(expand(a:path), ":p")
     cal ctrlp#setdir(l:fullpath)
     let l:files = ctrlp#files()
@@ -78,9 +82,9 @@ fu! s:files(path)
     retu l:files
 endf
 
+" Note that this changes the current directory.
 fu! ctrlp#quickref#remove(path)
-    let l:pwd = fnamemodify('.', ":p")
-    let l:files = s:files(a:path)
+    let l:files = ctrlp#quickref#files(a:path)
     let l:first_buffer = 1
     let l:last_buffer = bufnr("$")
     let l:bufnr = l:first_buffer
@@ -100,7 +104,6 @@ fu! ctrlp#quickref#remove(path)
         en
         let l:bufnr = l:bufnr + 1
     endw
-    silent exe "norm! :cd ".l:pwd."\<cr>"
 endf
 
 fu! s:read_config(lines)
@@ -187,6 +190,13 @@ fu! ctrlp#quickref#accept(mode, str)
     call ctrlp#exit()
     if a:mode == 'h'
         cal s:grep_with_prompt(a:str)
+    elsei a:mode == 't'
+        if g:ctrlp_quickref_move_with_autoremove
+            let l:root = ctrlp#quickref#root('.')
+            let l:root = l:root ? l:root : '.'
+            cal ctrlp#quickref#remove(l:root)
+        en
+        silent exe "norm! :cd ".a:str."\<cr>"
     else
         let g:ctrlp_quickref_last_dir = a:str
         call ctrlp#init(ctrlp#reference#id(), {'dir': a:str})
