@@ -34,7 +34,7 @@ fu! ctrlp#reference#accept(mode, str)
         call system(s:open_command.' '.a:str)
         call ctrlp#exit()
     el
-        if g:ctrlp_quickref_readonly_enabled
+        if g:ctrlproj_readonly_enabled
             aug ctrlp-reference
                 au!
                 au BufEnter *
@@ -50,7 +50,7 @@ fu! ctrlp#reference#accept(mode, str)
 endf
 
 fu! s:check_extension(fname)
-    for extension in g:ctrlp_quickref_open_extensions
+    for extension in g:ctrlproj_open_extensions
         if a:fname =~ '.\?\.'.extension.'$'
             retu 1
         endif

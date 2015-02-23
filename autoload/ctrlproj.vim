@@ -1,30 +1,30 @@
-if exists('g:loaded_ctrlp_quickref') && g:loaded_ctrlp_quickref || v:version < 700 || &cp
+if exists('g:loaded_ctrlproj') && g:loaded_ctrlproj || v:version < 700 || &cp
     finish
 en
-let g:loaded_ctrlp_quickref = 1
+let g:loaded_ctrlproj = 1
 
-if !exists('g:ctrlp_quickref_readonly_enabled')
-    let g:ctrlp_quickref_readonly_enabled = 1
+if !exists('g:ctrlproj_readonly_enabled')
+    let g:ctrlproj_readonly_enabled = 1
 en
 
-if !exists('g:ctrlp_quickref_open_extensions')
-    let g:ctrlp_quickref_open_extensions = ['html', 'pdf']
+if !exists('g:ctrlproj_open_extensions')
+    let g:ctrlproj_open_extensions = ['html', 'pdf']
 en
 
-if !exists('g:ctrlp_quickref_last_dir')
-    let g:ctrlp_quickref_last_dir = ''
+if !exists('g:ctrlproj_last_dir')
+    let g:ctrlproj_last_dir = ''
 en
 
-if !exists('g:ctrlp_quickref_configuration_file')
-    let g:ctrlp_quickref_configuration_file = '~/.vim/.ctrlp-quickref'
+if !exists('g:ctrlproj_configuration_path')
+    let g:ctrlproj_configuration_path = '~/.vim/.ctrlp-quickref'
 en
 
-if !exists('g:ctrlp_quickref_move_with_autoremove')
-    let g:ctrlp_quickref_move_with_autoremove = 1
+if !exists('g:ctrlproj_autoremove_enabled')
+    let g:ctrlproj_autoremove_enabled = 1
 en
 
-if !exists('g:ctrlp_quickref_rootmarker_dirs')
-    let g:ctrlp_quickref_rootmarker_dirs = [
+if !exists('g:ctrlproj_rootmarker_dirs')
+    let g:ctrlproj_rootmarker_dirs = [
         \ '.git',
         \ '.hg',
         \ '.svn',
@@ -33,8 +33,8 @@ if !exists('g:ctrlp_quickref_rootmarker_dirs')
         \ ]
 en
 
-if !exists('g:ctrlp_quickref_rootmarker_files')
-    let g:ctrlp_quickref_rootmarker_files = [
+if !exists('g:ctrlproj_rootmarker_files')
+    let g:ctrlproj_rootmarker_files = [
         \ '.projectile',
         \ '.travis.yml',
         \ 'build.xml',
@@ -42,26 +42,26 @@ if !exists('g:ctrlp_quickref_rootmarker_files')
         \ ]
 en
 
-fu! ctrlp#quickref#edit()
-    if filereadable(expand(g:ctrlp_quickref_configuration_file))
+fu! ctrlproj#edit()
+    if filereadable(expand(g:ctrlproj_configuration_path))
         echom 'readable'
-        exe "normal! :e ".g:ctrlp_quickref_configuration_file."\<cr>"
+        exe "normal! :e ".g:ctrlproj_configuration_path."\<cr>"
     en
 endf
 
-fu! ctrlp#quickref#root(path)
+fu! ctrlproj#root(path)
     let l:fullpath = fnamemodify(expand(a:path), ":p")
     let l:prev = ''
     let l:dir = l:fullpath
     while 1
         let l:prev = l:dir
         let l:dir = fnamemodify(l:dir, ":h")
-        for marker in g:ctrlp_quickref_rootmarker_dirs
+        for marker in g:ctrlproj_rootmarker_dirs
             if filereadable(l:dir.'/'.marker) || isdirectory(l:dir.'/'.marker)
                 retu l:dir
             en
         endfo
-        for marker in g:ctrlp_quickref_rootmarker_files
+        for marker in g:ctrlproj_rootmarker_files
             if filereadable(l:dir.'/'.marker) || !isdirectory(l:dir.'/'.marker)
                 retu l:dir
             en
@@ -74,7 +74,7 @@ fu! ctrlp#quickref#root(path)
 endf
 
 " Note that this chanegs the current directory.
-fu! ctrlp#quickref#files(path)
+fu! ctrlproj#files(path)
     let l:fullpath = fnamemodify(expand(a:path), ":p")
     cal ctrlp#setdir(l:fullpath)
     let l:files = ctrlp#files()
@@ -83,8 +83,8 @@ fu! ctrlp#quickref#files(path)
 endf
 
 " Note that this changes the current directory.
-fu! ctrlp#quickref#remove(path)
-    let l:files = ctrlp#quickref#files(a:path)
+fu! ctrlproj#remove(path)
+    let l:files = ctrlproj#files(a:path)
     let l:first_buffer = 1
     let l:last_buffer = bufnr("$")
     let l:bufnr = l:first_buffer
@@ -130,8 +130,8 @@ fu! s:read_config(lines)
 endf
 
 fu! s:read_file_config()
-    if filereadable(expand(g:ctrlp_quickref_configuration_file))
-        let l:lines = readfile(expand(g:ctrlp_quickref_configuration_file))
+    if filereadable(expand(g:ctrlproj_configuration_path))
+        let l:lines = readfile(expand(g:ctrlproj_configuration_path))
         retu s:read_config(l:lines)
     el
         retu []
@@ -139,8 +139,8 @@ fu! s:read_file_config()
 endf
 
 fu! s:read_variable_config()
-    if exists('g:ctrlp_quickref_paths')
-        retu s:read_config(g:ctrlp_quickref_paths)
+    if exists('g:ctrlproj_paths')
+        retu s:read_config(g:ctrlproj_paths)
     el
         retu []
     en
@@ -165,9 +165,9 @@ endf
 
 fu! s:grep_with_prompt(path)
     let l:keyword = input('Keyword? ')
-    if exists('g:ctrlp_quickref_grepprg') && g:ctrlp_quickref_grepprg != ''
+    if exists('g:ctrlproj_grepprg') && g:ctrlproj_grepprg != ''
         let l:tmp_grepprg = &grepprg
-        let &grepprg = g:ctrlp_quickref_grepprg
+        let &grepprg = g:ctrlproj_grepprg
     en
     sil exe 'normal! :grep '."\'".l:keyword."\'".' '.a:path."\<cr>"
     if exists('l:tmp_grepprg')
@@ -176,36 +176,36 @@ fu! s:grep_with_prompt(path)
 endf
 
 call add(g:ctrlp_ext_vars, {
-    \ 'init': 'ctrlp#quickref#init()',
-    \ 'accept': 'ctrlp#quickref#accept',
+    \ 'init': 'ctrlproj#init()',
+    \ 'accept': 'ctrlproj#accept',
     \ 'type': 'path',
     \ 'sort': 0,
     \ 'specinput': 0,
     \ })
 
-fu! ctrlp#quickref#init()
+fu! ctrlproj#init()
     retu s:read_file_config() + s:read_variable_config()
 endf
 
-fu! ctrlp#quickref#accept(mode, str)
+fu! ctrlproj#accept(mode, str)
     call ctrlp#exit()
     if a:mode == 'h'
         cal s:grep_with_prompt(a:str)
     elsei a:mode == 't'
-        if g:ctrlp_quickref_move_with_autoremove
-            let l:root = ctrlp#quickref#root('.')
+        if g:ctrlproj_autoremove_enabled
+            let l:root = ctrlproj#root('.')
             let l:root = l:root ? l:root : '.'
-            cal ctrlp#quickref#remove(l:root)
+            cal ctrlproj#remove(l:root)
         en
         silent exe "norm! :cd ".a:str."\<cr>"
     else
-        let g:ctrlp_quickref_last_dir = a:str
+        let g:ctrlproj_last_dir = a:str
         call ctrlp#init(ctrlp#reference#id(), {'dir': a:str})
     en
 endf
 
 let s:id = g:ctrlp_builtins + len(g:ctrlp_ext_vars)
 
-fu! ctrlp#quickref#id()
+fu! ctrlproj#id()
     retu s:id
 endf
