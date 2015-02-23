@@ -42,6 +42,40 @@ if !exists('g:ctrlproj_rootmarker_files')
         \ ]
 en
 
+if !exists('g:ctrlproj_src2test')
+    let g:ctrlproj_src2test = {
+        \ 'src/main/java/*.java': 'src/test/java/*Test.java',
+        \ 'src/main/scala/*.scala': 'src/test/scala/*Test.scala'
+        \ }
+en
+
+" This function partite a given string once
+fu! s:partite_str(str, mid)
+    let l:idx = stridx(a:str, a:mid)
+    if l:idx != -1
+        let l:len = strlen(a:mid)
+        retu [a:str[:(l:idx - 1)], a:str[(l:idx + l:len):]]
+    else
+        retu [a:str, '']
+    en
+endf
+
+fu! ctrlproj#alternate(path)
+    let l:all_regex = '\(.*\)'
+    let l:path_regex = '\\(\\([^/]\\+/\\)*[^/]\\+\\)'
+    for [key, value] in items(g:ctrlproj_src2test)
+        let l:key_regex = l:all_regex.substitute(key, '*', l:path_regex, '')
+        let l:value_regex = l:all_regex.substitute(value, '*', l:path_regex, '')
+        if a:path =~ l:key_regex
+            let [l:front, l:rear] = s:partite_str(value, '*')
+            retu substitute(a:path, l:key_regex, '\1'.l:front.'\2'.l:rear, '')
+        elsei a:path =~ l:value_regex
+            let [l:front, l:rear] = s:partite_str(key, '*')
+            retu substitute(a:path, l:value_regex, '\1'.l:front.'\2'.l:rear, '')
+        en
+    endfo
+endf
+
 fu! ctrlproj#edit()
     silent exe "normal! :e ".g:ctrlproj_configuration_path."\<cr>"
 endf
