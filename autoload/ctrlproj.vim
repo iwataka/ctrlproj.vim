@@ -50,7 +50,7 @@ if !exists('g:ctrlproj_src2test')
 en
 
 " This function partite a given string once
-fu! s:partite_str(str, mid)
+fu! s:partition(str, mid)
     let l:idx = stridx(a:str, a:mid)
     if l:idx != -1
         let l:len = strlen(a:mid)
@@ -77,10 +77,10 @@ fu! ctrlproj#alternate(path)
         let l:key_regex = l:all_regex.substitute(key, '*', l:path_regex, '')
         let l:value_regex = l:all_regex.substitute(value, '*', l:path_regex, '')
         if a:path =~ l:key_regex
-            let [l:front, l:rear] = s:partite_str(value, '*')
+            let [l:front, l:rear] = s:partition(value, '*')
             retu substitute(a:path, l:key_regex, '\1'.l:front.'\2'.l:rear, '')
         elsei a:path =~ l:value_regex
-            let [l:front, l:rear] = s:partite_str(key, '*')
+            let [l:front, l:rear] = s:partition(key, '*')
             retu substitute(a:path, l:value_regex, '\1'.l:front.'\2'.l:rear, '')
         en
     endfo
