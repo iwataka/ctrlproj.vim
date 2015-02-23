@@ -69,14 +69,38 @@ fu! ctrlp#quickref#root(path)
     retu ''
 endf
 
-fu! ctrlp#quickref#files(path)
+" Note that this chanegs the current directory to the 'path'
+fu! s:files(path)
     let l:fullpath = fnamemodify(expand(a:path), ":p")
-    let l:pwd = fnamemodify('.', ":p")
     cal ctrlp#setdir(l:fullpath)
     let l:files = ctrlp#files()
     cal ctrlp#progress('')
-    exe "norm! :cd ".l:pwd."\<cr>"
     retu l:files
+endf
+
+fu! ctrlp#quickref#remove(path)
+    let l:pwd = fnamemodify('.', ":p")
+    let l:files = s:files(a:path)
+    let l:first_buffer = 1
+    let l:last_buffer = bufnr("$")
+    let l:bufnr = l:first_buffer
+    while !(l:bufnr > l:last_buffer)
+        if bufexists(l:bufnr)
+            silent exe "norm! :".l:bufnr."buffer\<cr>"
+            let l:name = bufname(l:bufnr)
+            if &modified
+                let l:response = input("Save changes in [".l:name."] ?(y/n)")
+                if l:response =~ '[yY(yes)(Yes)(YES)]'
+                    silent exe "norm! :write\<cr>"
+                en
+            en
+            if !&modified && s:contains(l:files, l:name)
+                silent exe "norm! :".l:bufnr."bdelete\<cr>"
+            en
+        en
+        let l:bufnr = l:bufnr + 1
+    endw
+    silent exe "norm! :cd ".l:pwd."\<cr>"
 endf
 
 fu! s:read_config(lines)
@@ -101,6 +125,7 @@ fu! s:read_config(lines)
 endf
 
 fu! s:read_file_config()
+
     if filereadable(expand(g:ctrlp_quickref_configuration_file))
         let l:lines = readfile(expand(g:ctrlp_quickref_configuration_file))
         retu s:read_config(l:lines)
