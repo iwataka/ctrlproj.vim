@@ -39,8 +39,7 @@ fu! ctrlp#reference#accept(mode, str)
                 au!
                 au BufEnter *
                     \ setlocal readonly |
-                    \ setlocal nomodifiable |
-                    \ setlocal bufhidden=delete
+                    \ setlocal nomodifiable
             aug END
         endif
         call call('ctrlp#acceptfile', [a:mode, a:str])
