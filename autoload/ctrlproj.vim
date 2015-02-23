@@ -43,10 +43,7 @@ if !exists('g:ctrlproj_rootmarker_files')
 en
 
 fu! ctrlproj#edit()
-    if filereadable(expand(g:ctrlproj_configuration_path))
-        echom 'readable'
-        exe "normal! :e ".g:ctrlproj_configuration_path."\<cr>"
-    en
+    silent exe "normal! :e ".g:ctrlproj_configuration_path."\<cr>"
 endf
 
 fu! ctrlproj#root(path)
