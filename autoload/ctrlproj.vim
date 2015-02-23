@@ -16,7 +16,7 @@ if !exists('g:ctrlproj_last_dir')
 en
 
 if !exists('g:ctrlproj_configuration_path')
-    let g:ctrlproj_configuration_path = '~/.vim/.ctrlp-quickref'
+    let g:ctrlproj_configuration_path = '~/.vim/.ctrlproj'
 en
 
 if !exists('g:ctrlproj_autoremove_enabled')
@@ -194,6 +194,8 @@ fu! ctrlproj#accept(mode, str)
             let l:root = l:root ? l:root : '.'
             cal ctrlproj#remove(l:root)
         en
+        silent exe "norm! :cd ".a:str."\<cr>"
+    elsei a:mode == 'v'
         silent exe "norm! :cd ".a:str."\<cr>"
     else
         let g:ctrlproj_last_dir = a:str
