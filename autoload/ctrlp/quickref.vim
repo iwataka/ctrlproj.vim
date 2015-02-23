@@ -69,6 +69,16 @@ fu! ctrlp#quickref#root(path)
     retu ''
 endf
 
+fu! ctrlp#quickref#files(path)
+    let l:fullpath = fnamemodify(expand(a:path), ":p")
+    let l:pwd = fnamemodify('.', ":p")
+    cal ctrlp#setdir(l:fullpath)
+    let l:files = ctrlp#files()
+    cal ctrlp#progress('')
+    exe "norm! :cd ".l:pwd."\<cr>"
+    retu l:files
+endf
+
 fu! s:read_config(lines)
     let l:exclusive_paths = []
     let l:inclusive_paths = []
