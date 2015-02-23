@@ -9,7 +9,7 @@ let g:ctrlp_quickref_open_extensions = ['html', 'pdf']
 
 let g:ctrlp_quickref_last_dir = ''
 
-let g:ctrlp_quickref_configuration_file = '~/.ctrlp-quickref'
+let g:ctrlp_quickref_configuration_file = '~/.vim/.ctrlp-quickref'
 
 fu! ctrlp#quickref#edit()
     if filereadable(expand(g:ctrlp_quickref_configuration_file))
