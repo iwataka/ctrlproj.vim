@@ -92,14 +92,16 @@ fu! ctrlp#quickref#remove(path)
         if bufexists(l:bufnr)
             silent exe "norm! :".l:bufnr."buffer\<cr>"
             let l:name = bufname(l:bufnr)
-            if &modified
-                let l:response = input("Save changes in [".l:name."] ?(y/n)")
-                if l:response =~ '[yY(yes)(Yes)(YES)]'
-                    silent exe "norm! :write\<cr>"
+            if fnamemodify(l:name, ":p") != l:name
+                if &modified
+                    let l:response = input("Save changes in [".l:name."]?(y/n)")
+                    if l:response =~ '[yY(yes)(Yes)(YES)]'
+                        silent exe "norm! :write\<cr>"
+                    en
                 en
-            en
-            if !&modified && s:contains(l:files, l:name)
-                silent exe "norm! :".l:bufnr."bdelete\<cr>"
+                if !&modified && s:contains(l:files, l:name)
+                    silent exe "norm! :".l:bufnr."bdelete\<cr>"
+                en
             en
         en
         let l:bufnr = l:bufnr + 1
@@ -128,7 +130,6 @@ fu! s:read_config(lines)
 endf
 
 fu! s:read_file_config()
-
     if filereadable(expand(g:ctrlp_quickref_configuration_file))
         let l:lines = readfile(expand(g:ctrlp_quickref_configuration_file))
         retu s:read_config(l:lines)
