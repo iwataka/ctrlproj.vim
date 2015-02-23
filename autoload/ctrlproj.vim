@@ -61,18 +61,13 @@ fu! s:partite_str(str, mid)
 endf
 
 fu! ctrlproj#alternate_current_buffer()
-    let l:root = ctrlproj#root('.')
-    let l:root = l:root ? l:root : '.'
-    let l:pwd = fnamemodify('.', ":p")
-    silent exe "norm! :cd ".l:root."\<cr>"
-    let l:bufname = bufname("%")
+    let l:bufname = fnamemodify(bufname("%"), ":p")
     let l:alt_name = ctrlproj#alternate(l:bufname)
-    if l:alt_name
+    if type(l:alt_name) == 1 && l:alt_name != ''
         silent exe "norm! :e ".l:alt_name."\<cr>"
     else
         echoe "This file has no patterns which can be alternated."
     en
-    silent exe "norm! :cd ".l:pwd."\<cr>"
 endf
 
 fu! ctrlproj#alternate(path)
