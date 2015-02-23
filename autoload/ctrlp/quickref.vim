@@ -3,13 +3,34 @@ if exists('g:loaded_ctrlp_quickref') && g:loaded_ctrlp_quickref || v:version < 7
 endif
 let g:loaded_ctrlp_quickref = 1
 
-let g:ctrlp_quickref_readonly_enabled = 1
+if !exists('g:ctrlp_quickref_readonly_enabled')
+    let g:ctrlp_quickref_readonly_enabled = 1
+endif
 
-let g:ctrlp_quickref_open_extensions = ['html', 'pdf']
+if !exists('g:ctrlp_quickref_open_extensions')
+    let g:ctrlp_quickref_open_extensions = ['html', 'pdf']
+endif
 
-let g:ctrlp_quickref_last_dir = ''
+if !exists('g:ctrlp_quickref_last_dir')
+    let g:ctrlp_quickref_last_dir = ''
+endif
 
-let g:ctrlp_quickref_configuration_file = '~/.vim/.ctrlp-quickref'
+if !exists('g:ctrlp_quickref_configuration_file')
+    let g:ctrlp_quickref_configuration_file = '~/.vim/.ctrlp-quickref'
+endif
+
+if !exists('g:ctrlp_quickref_rootmarkers')
+    let g:ctrlp_quickref_rootmarkers = [
+        \ '.projectile',
+        \ '.git',
+        \ '.hg',
+        \ '.svn',
+        \ '.bzr',
+        \ '_darcs',
+        \ 'build.xml',
+        \ 'build.sbt'
+        \ ]
+endif
 
 fu! ctrlp#quickref#edit()
     if filereadable(expand(g:ctrlp_quickref_configuration_file))
