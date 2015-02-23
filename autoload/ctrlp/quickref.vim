@@ -1,42 +1,72 @@
 if exists('g:loaded_ctrlp_quickref') && g:loaded_ctrlp_quickref || v:version < 700 || &cp
     finish
-endif
+en
 let g:loaded_ctrlp_quickref = 1
 
 if !exists('g:ctrlp_quickref_readonly_enabled')
     let g:ctrlp_quickref_readonly_enabled = 1
-endif
+en
 
 if !exists('g:ctrlp_quickref_open_extensions')
     let g:ctrlp_quickref_open_extensions = ['html', 'pdf']
-endif
+en
 
 if !exists('g:ctrlp_quickref_last_dir')
     let g:ctrlp_quickref_last_dir = ''
-endif
+en
 
 if !exists('g:ctrlp_quickref_configuration_file')
     let g:ctrlp_quickref_configuration_file = '~/.vim/.ctrlp-quickref'
-endif
+en
 
-if !exists('g:ctrlp_quickref_rootmarkers')
-    let g:ctrlp_quickref_rootmarkers = [
-        \ '.projectile',
+if !exists('g:ctrlp_quickref_rootmarker_dirs')
+    let g:ctrlp_quickref_rootmarker_dirs = [
         \ '.git',
         \ '.hg',
         \ '.svn',
         \ '.bzr',
-        \ '_darcs',
+        \ '_darcs'
+        \ ]
+en
+
+if !exists('g:ctrlp_quickref_rootmarker_files')
+    let g:ctrlp_quickref_rootmarker_files = [
+        \ '.projectile',
+        \ '.travis.yml',
         \ 'build.xml',
         \ 'build.sbt'
         \ ]
-endif
+en
 
 fu! ctrlp#quickref#edit()
     if filereadable(expand(g:ctrlp_quickref_configuration_file))
         echom 'readable'
         exe "normal! :e ".g:ctrlp_quickref_configuration_file."\<cr>"
-    endif
+    en
+endf
+
+fu! ctrlp#quickref#root(path)
+    let l:fullpath = fnamemodify(expand(a:path), ":p")
+    let l:prev = ''
+    let l:dir = l:fullpath
+    while 1
+        let l:prev = l:dir
+        let l:dir = fnamemodify(l:dir, ":h")
+        for marker in g:ctrlp_quickref_rootmarker_dirs
+            if filereadable(l:dir.'/'.marker) || isdirectory(l:dir.'/'.marker)
+                retu l:dir
+            en
+        endfo
+        for marker in g:ctrlp_quickref_rootmarker_files
+            if filereadable(l:dir.'/'.marker) || !isdirectory(l:dir.'/'.marker)
+                retu l:dir
+            en
+        endfo
+        if l:dir == l:prev
+            brea
+        en
+    endw
+    retu ''
 endf
 
 fu! s:read_config(lines)
@@ -49,14 +79,14 @@ fu! s:read_config(lines)
         elseif line !~ '^#' && line != ''
             let l:tmp_paths = split(expand(line), '\n')
             call s:add_directories(l:inclusive_paths, l:tmp_paths)
-        endif
-    endfor
+        en
+    endfo
     let l:paths = []
     for path in l:inclusive_paths
         if !s:contains(exclusive_paths, path)
             call add(l:paths, path)
-        endif
-    endfor
+        en
+    endfo
     retu l:paths
 endf
 
@@ -66,7 +96,7 @@ fu! s:read_file_config()
         retu s:read_config(l:lines)
     el
         retu []
-    endif
+    en
 endf
 
 fu! s:read_variable_config()
@@ -74,23 +104,23 @@ fu! s:read_variable_config()
         retu s:read_config(g:ctrlp_quickref_paths)
     el
         retu []
-    endif
+    en
 endf
 
 fu! s:add_directories(list, paths)
     for path in a:paths
         if isdirectory(path)
             call add(a:list, path)
-        endif
-    endfor
+        en
+    endfo
 endf
 
 fu! s:contains(list, item)
     for i in a:list
         if i == a:item
             retu 1
-        endif
-    endfor
+        en
+    endfo
     retu 0
 endf
 
@@ -99,11 +129,11 @@ fu! s:grep_with_prompt(path)
     if exists('g:ctrlp_quickref_grepprg') && g:ctrlp_quickref_grepprg != ''
         let l:tmp_grepprg = &grepprg
         let &grepprg = g:ctrlp_quickref_grepprg
-    endif
+    en
     sil exe 'normal! :grep '."\'".l:keyword."\'".' '.a:path."\<cr>"
     if exists('l:tmp_grepprg')
         let &grepprg = l:tmp_grepprg
-    endif
+    en
 endf
 
 call add(g:ctrlp_ext_vars, {
@@ -125,7 +155,7 @@ fu! ctrlp#quickref#accept(mode, str)
     else
         let g:ctrlp_quickref_last_dir = a:str
         call ctrlp#init(ctrlp#reference#id(), {'dir': a:str})
-    endif
+    en
 endf
 
 let s:id = g:ctrlp_builtins + len(g:ctrlp_ext_vars)
