@@ -23,25 +23,6 @@ if !exists('g:ctrlproj_autoremove_enabled')
     let g:ctrlproj_autoremove_enabled = 1
 en
 
-if !exists('g:ctrlproj_rootmarker_dirs')
-    let g:ctrlproj_rootmarker_dirs = [
-        \ '.git',
-        \ '.hg',
-        \ '.svn',
-        \ '.bzr',
-        \ '_darcs'
-        \ ]
-en
-
-if !exists('g:ctrlproj_rootmarker_files')
-    let g:ctrlproj_rootmarker_files = [
-        \ '.projectile',
-        \ '.travis.yml',
-        \ 'build.xml',
-        \ 'build.sbt'
-        \ ]
-en
-
 if !exists('g:ctrlproj_src2test')
     let g:ctrlproj_src2test = {
         \ 'src/main/java/*.java': 'src/test/java/*Test.java',
@@ -90,31 +71,7 @@ fu! ctrlproj#edit()
     silent exe "normal! :e ".g:ctrlproj_configuration_path."\<cr>"
 endf
 
-fu! ctrlproj#root(path)
-    let l:fullpath = fnamemodify(expand(a:path), ":p")
-    let l:prev = ''
-    let l:dir = l:fullpath
-    while 1
-        let l:prev = l:dir
-        let l:dir = fnamemodify(l:dir, ":h")
-        for marker in g:ctrlproj_rootmarker_dirs
-            if filereadable(l:dir.'/'.marker) || isdirectory(l:dir.'/'.marker)
-                retu l:dir
-            en
-        endfo
-        for marker in g:ctrlproj_rootmarker_files
-            if filereadable(l:dir.'/'.marker) || !isdirectory(l:dir.'/'.marker)
-                retu l:dir
-            en
-        endfo
-        if l:dir == l:prev
-            brea
-        en
-    endw
-    retu ''
-endf
-
-" Note that this chanegs the current directory.
+" Note that this chanegs the current directory in current window.
 fu! ctrlproj#files(path)
     let l:fullpath = fnamemodify(expand(a:path), ":p")
     cal ctrlp#setdir(l:fullpath)
@@ -124,7 +81,7 @@ fu! ctrlproj#files(path)
 endf
 
 " Note that this changes the current directory.
-fu! ctrlproj#remove(path)
+fu! ctrlproj#remove_buffers(path)
     let l:files = ctrlproj#files(a:path)
     let l:first_buffer = 1
     let l:last_buffer = bufnr("$")
@@ -234,9 +191,9 @@ fu! ctrlproj#accept(mode, str)
         cal s:grep_with_prompt(a:str)
     elsei a:mode == 't'
         if g:ctrlproj_autoremove_enabled
-            let l:root = ctrlproj#root('.')
-            let l:root = l:root ? l:root : '.'
-            cal ctrlproj#remove(l:root)
+            cal ctrlp#setpathmode('r', fnamemodify('.', ':p'))
+            let l:cd = fnamemodify('.', ':p')
+            cal ctrlproj#remove_buffers(l:cd)
         en
         silent exe "norm! :cd ".a:str."\<cr>"
     elsei a:mode == 'v'
