@@ -37,9 +37,7 @@ fu! ctrlp#reference#accept(mode, str)
         if g:ctrlproj_readonly_enabled
             aug ctrlp-reference
                 au!
-                au BufEnter *
-                    \ setlocal readonly |
-                    \ setlocal nomodifiable
+                au BufEnter * setlocal readonly
             aug END
         endif
         call call('ctrlp#acceptfile', [a:mode, a:str])
