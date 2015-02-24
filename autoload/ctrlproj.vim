@@ -38,19 +38,15 @@ fu! s:partition(str, mid)
 endf
 
 fu! ctrlproj#switch_current_buffer()
-    let l:files = ctrlproj#switch('.', '%')
-    for fl in l:files
-        silent exe "norm! :e ".fl."\<cr>"
-    endfo
-endf
-
-fu! ctrlproj#switch_current_buffer_by_template()
     let l:bufname = fnamemodify(bufname("%"), ":p")
     let l:alt_name = ctrlproj#switch_by_template(l:bufname)
-    if type(l:alt_name) == 1 && l:alt_name != ''
+    if l:alt_name != ''
         silent exe "norm! :e ".l:alt_name."\<cr>"
     else
-        echoe "This file has no patterns which can be switched."
+        let l:files = ctrlproj#switch('.', '%')
+        for fl in l:files
+            silent exe "norm! :e ".fl."\<cr>"
+        endfo
     en
 endf
 
@@ -95,6 +91,7 @@ fu! ctrlproj#switch_by_template(path)
             retu substitute(a:path, l:value_regex, '\1'.l:front.'\2'.l:rear, '')
         en
     endfo
+    retu ''
 endf
 
 fu! ctrlproj#alternate(path, file)
