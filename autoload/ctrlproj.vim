@@ -135,7 +135,7 @@ fu! ctrlproj#remove_buffers(path)
     while !(l:bufnr > l:last_buffer)
         if bufexists(l:bufnr)
             let l:name = bufname(l:bufnr)
-            if !&readonly && &modifiable
+            if !getbufvar(l:bufnr, "&readonly") && getbufvar(l:bufnr, "&modifiable")
                 if s:contains(l:files, l:name)
                     if getbufvar(l:bufnr, "&modified")
                         let l:res = input("Save changes in ".l:name."? ")
