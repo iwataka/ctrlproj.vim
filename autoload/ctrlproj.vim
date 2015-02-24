@@ -88,17 +88,18 @@ fu! ctrlproj#remove_buffers(path)
     let l:bufnr = l:first_buffer
     while !(l:bufnr > l:last_buffer)
         if bufexists(l:bufnr)
-            silent exe "norm! :".l:bufnr."buffer\<cr>"
             let l:name = bufname(l:bufnr)
-            if fnamemodify(l:name, ":p") != l:name
-                if &modified
-                    let l:response = input("Save changes in [".l:name."]?(y/n)")
-                    if l:response =~ '[yY(yes)(Yes)(YES)]'
-                        silent exe "norm! :write\<cr>"
+            if !&readonly && &modifiable
+                if s:contains(l:files, l:name)
+                    if getbufvar(l:bufnr, "&modified")
+                        let l:response = input("Save changes in [".l:name."]?(y/n)")
+                        if l:response =~ '[yY(yes)(Yes)(YES)]'
+                            silent exe "norm! :write\<cr>"
+                        en
                     en
-                en
-                if !&modified && s:contains(l:files, l:name)
-                    silent exe "norm! :".l:bufnr."bdelete\<cr>"
+                    if !getbufvar(l:bufnr, "&modified")
+                        silent exe "norm! :".l:bufnr."bdelete\<cr>"
+                    en
                 en
             en
         en
