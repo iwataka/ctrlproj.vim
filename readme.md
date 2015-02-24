@@ -1,4 +1,9 @@
-# ctrlp-quickref.vim
+# ctrlproj.vim
+
+Ctrlproj is an abbreviation of "CtrlP + Project" and provides great project
+management tool powered by CtrlP interface. This is based on
+[ctrlp-quickref.vim](https://github.com/iwataka/ctrlp-quickref.vim) and shipped
+with a lot of additional features.
 
 ## Motivation
 
