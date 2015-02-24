@@ -44,9 +44,13 @@ fu! ctrlproj#switch_current_buffer()
         silent exe "norm! :e ".l:alt_name."\<cr>"
     else
         let l:files = ctrlproj#switch('.', '%')
-        for fl in l:files
-            silent exe "norm! :e ".fl."\<cr>"
-        endfo
+        if len(l:files) == 0
+            echo "File not found."
+        else
+            for fl in l:files
+                silent exe "norm! :e ".fl."\<cr>"
+            endfo
+        en
     en
 endf
 
@@ -119,7 +123,6 @@ fu! ctrlproj#files(path)
     let l:fullpath = fnamemodify(expand(a:path), ":p")
     cal ctrlp#setdir(l:fullpath)
     let l:files = ctrlp#files()
-    cal ctrlp#progress('')
     retu l:files
 endf
 
