@@ -19,10 +19,6 @@ if !exists('g:ctrlproj_configuration_path')
     let g:ctrlproj_configuration_path = '~/.vim/.ctrlproj'
 en
 
-if !exists('g:ctrlproj_autoremove_enabled')
-    let g:ctrlproj_autoremove_enabled = 0
-en
-
 if !exists('g:ctrlproj_src2test')
     let g:ctrlproj_src2test = {
         \ 'src/main/java/*.java': 'src/test/java/*Test.java',
@@ -218,18 +214,6 @@ fu! s:contains(list, item)
     retu 0
 endf
 
-fu! s:grep_with_prompt(path)
-    let l:keyword = input('Keyword? ')
-    if exists('g:ctrlproj_grepprg') && g:ctrlproj_grepprg != ''
-        let l:tmp_grepprg = &grepprg
-        let &grepprg = g:ctrlproj_grepprg
-    en
-    sil exe 'normal! :grep '."\'".l:keyword."\'".' '.a:path."\<cr>"
-    if exists('l:tmp_grepprg')
-        let &grepprg = l:tmp_grepprg
-    en
-endf
-
 call add(g:ctrlp_ext_vars, {
     \ 'init': 'ctrlproj#init()',
     \ 'accept': 'ctrlproj#accept',
@@ -245,19 +229,12 @@ endf
 fu! ctrlproj#accept(mode, str)
     call ctrlp#exit()
     if a:mode == 'h'
-        cal s:grep_with_prompt(a:str)
+        silent exe "norm! :e ".a:str."\<cr>"
     elsei a:mode == 't'
-        if g:ctrlproj_autoremove_enabled
-            cal ctrlproj#remove_buffers_inside_project()
-        else
-            let l:res = input('Remove all buffers in this project? ')
-            if l:res =~ '[[yY]\|\(yes\)\|\(Yes\)\|\(YES\)]'
-                cal ctrlproj#remove_buffers_inside_project()
-            en
-        en
+        cal ctrlproj#remove_buffers_inside_project()
         silent exe "norm! :cd ".a:str."\<cr>"
     elsei a:mode == 'v'
-        silent exe "norm! :e ".a:str."\<cr>"
+        silent exe "norm! :cd ".a:str."\<cr>"
     else
         let g:ctrlproj_last_dir = a:str
         call ctrlp#init(ctrlp#reference#id(), {'dir': a:str})
