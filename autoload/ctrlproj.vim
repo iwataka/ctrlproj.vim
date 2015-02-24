@@ -20,7 +20,11 @@ if !exists('g:ctrlproj_last_dir')
 en
 
 if !exists('g:ctrlproj_configuration_path')
-    let g:ctrlproj_configuration_path = '~/.vim/.ctrlproj'
+    if has('win32') || has('win64')
+        g:ctrlproj_configuration_path = '~/vimfiles/.ctrlproj'
+    else
+        let g:ctrlproj_configuration_path = '~/.vim/.ctrlproj'
+    en
 en
 
 if !exists('g:ctrlproj_src2test')
