@@ -20,7 +20,7 @@ if !exists('g:ctrlproj_configuration_path')
 en
 
 if !exists('g:ctrlproj_autoremove_enabled')
-    let g:ctrlproj_autoremove_enabled = 1
+    let g:ctrlproj_autoremove_enabled = 0
 en
 
 if !exists('g:ctrlproj_src2test')
@@ -142,8 +142,8 @@ fu! ctrlproj#remove_buffers(path)
             if !&readonly && &modifiable
                 if s:contains(l:files, l:name)
                     if getbufvar(l:bufnr, "&modified")
-                        let l:response = input("Save changes in [".l:name."]?(y/n)")
-                        if l:response =~ '[yY(yes)(Yes)(YES)]'
+                        let l:res = input("Save changes in ".l:name."? ")
+                        if l:res =~ '[[yY]\|\(yes\)\|\(Yes\)\|\(YES\)]'
                             silent exe "norm! :write\<cr>"
                         en
                     en
@@ -155,6 +155,12 @@ fu! ctrlproj#remove_buffers(path)
         en
         let l:bufnr = l:bufnr + 1
     endw
+endf
+
+fu! ctrlproj#remove_buffers_under_root()
+    cal ctrlp#setpathmode('r', fnamemodify('.', ':p'))
+    let l:cd = fnamemodify('.', ':p')
+    cal ctrlproj#remove_buffers(l:cd)
 endf
 
 fu! s:read_config(lines)
@@ -242,9 +248,12 @@ fu! ctrlproj#accept(mode, str)
         cal s:grep_with_prompt(a:str)
     elsei a:mode == 't'
         if g:ctrlproj_autoremove_enabled
-            cal ctrlp#setpathmode('r', fnamemodify('.', ':p'))
-            let l:cd = fnamemodify('.', ':p')
-            cal ctrlproj#remove_buffers(l:cd)
+            cal ctrlproj#remove_buffers_under_root()
+        else
+            let l:res = input('Remove all buffers in this project? ')
+            if l:res =~ '[[yY]\|\(yes\)\|\(Yes\)\|\(YES\)]'
+                cal ctrlproj#remove_buffers_under_root()
+            en
         en
         silent exe "norm! :cd ".a:str."\<cr>"
     elsei a:mode == 'v'
