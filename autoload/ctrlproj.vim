@@ -41,17 +41,44 @@ fu! s:partition(str, mid)
     en
 endf
 
-fu! ctrlproj#alternate_current_buffer()
+fu! ctrlproj#switch_current_buffer()
+    let l:files = ctrlproj#switch('.', '%')
+    for fl in l:files
+        silent exe "norm! :e ".fl."\<cr>"
+    endfo
+endf
+
+fu! ctrlproj#switch_current_buffer_by_template()
     let l:bufname = fnamemodify(bufname("%"), ":p")
-    let l:alt_name = ctrlproj#alternate(l:bufname)
+    let l:alt_name = ctrlproj#switch_by_template(l:bufname)
     if type(l:alt_name) == 1 && l:alt_name != ''
         silent exe "norm! :e ".l:alt_name."\<cr>"
     else
-        echoe "This file has no patterns which can be alternated."
+        echoe "This file has no patterns which can be switched."
     en
 endf
 
-fu! ctrlproj#alternate(path)
+fu! ctrlproj#switch(path, file)
+    let l:test_mark = '\(\(test\)\|\(spec\)\|\(Test\)\|\(Spec\)\)'
+    let l:files = ctrlproj#files(a:path)
+    let l:result = []
+    let l:expanded_filename = expand(a:file)
+    let l:rootname = fnamemodify(l:expanded_filename, ':t:r')
+    let l:extension = fnamemodify(l:expanded_filename, ':t:e')
+    let l:is_source = l:rootname !~ l:test_mark
+    for fl in l:files
+        let l:rt = fnamemodify(fl, ':t:r')
+        let l:ex = fnamemodify(fl, ':t:e')
+        let l:str = substitute(l:rootname, l:test_mark, '', '')
+        let l:is_src = l:rt !~ l:test_mark
+        if l:ex == l:extension && l:rt =~ l:str && xor(l:is_source, l:is_src)
+            cal add(l:result, fl)
+        en
+    endfo
+    retu l:result
+endf
+
+fu! ctrlproj#switch_by_template(path)
     let l:all_regex = '\(.*\)'
     let l:path_regex = '\\(\\([^/]\\+/\\)*[^/]\\+\\)'
     for [key, value] in items(g:ctrlproj_src2test)
