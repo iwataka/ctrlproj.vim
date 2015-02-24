@@ -70,7 +70,6 @@ file in ~/.vim and write like below:
 
 If you prefer the latter, write in your .vimrc like this:
 
-    ```vim
     let g:ctrlp_quickref_paths = [
         \ '/directory1/library_or_something_else/src',
         \ '/directory2/*/src',
@@ -78,14 +77,17 @@ If you prefer the latter, write in your .vimrc like this:
         " You want to exclude specified directory, put '!' at the head.
         \ '! /directory3/library_or_something_else/'
     ]
-    ```
 
 That's all!
 Run the command `:Ctrlproj` and you get CtrlP interface with paths you registered
 before.
 
+![Demo1](https://github.com/iwataka/images/blob/master/Ctrlproj1.png)
+
 Now you can hit the enter on selected path and get CtrlP interface again.
 In this way, Ctrlproj provides very quick access to files in any other projects.
+
+![Demo2](https://github.com/iwataka/images/blob/master/Ctrlproj2.png)
 
 You can press other keys like:
 
@@ -152,3 +154,7 @@ More additional commands are provided by Ctrlproj:
 
 + [the_silver_searhcer](https://github.com/ggreer/the_silver_searcher)(optional,
     but recommended)
+
+## Bugs & Improvements
+
+If you find any bugs or suggestions for improvements, feel free to report them.
