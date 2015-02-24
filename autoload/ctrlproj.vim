@@ -157,7 +157,7 @@ fu! ctrlproj#remove_buffers(path)
     endw
 endf
 
-fu! ctrlproj#remove_buffers_under_root()
+fu! ctrlproj#remove_buffers_inside_project()
     cal ctrlp#setpathmode('r', fnamemodify('.', ':p'))
     let l:cd = fnamemodify('.', ':p')
     cal ctrlproj#remove_buffers(l:cd)
@@ -248,11 +248,11 @@ fu! ctrlproj#accept(mode, str)
         cal s:grep_with_prompt(a:str)
     elsei a:mode == 't'
         if g:ctrlproj_autoremove_enabled
-            cal ctrlproj#remove_buffers_under_root()
+            cal ctrlproj#remove_buffers_inside_project()
         else
             let l:res = input('Remove all buffers in this project? ')
             if l:res =~ '[[yY]\|\(yes\)\|\(Yes\)\|\(YES\)]'
-                cal ctrlproj#remove_buffers_under_root()
+                cal ctrlproj#remove_buffers_inside_project()
             en
         en
         silent exe "norm! :cd ".a:str."\<cr>"
