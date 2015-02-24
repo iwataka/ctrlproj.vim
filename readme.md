@@ -2,7 +2,7 @@
 
 ## Introduction
 
-*Ctrlproj* is an abbreviation of "CtrlP + Project" and provides great project
+**Ctrlproj** is an abbreviation of "CtrlP + Project" and provides great project
 management features powered by CtrlP. This is based on my first Vim's plug-in
 [ctrlp-quickref.vim](https://github.com/iwataka/ctrlp-quickref.vim) and shipped
 with a lot of additional features. Though this is an early-stage experimental
@@ -27,19 +27,27 @@ You can use your favorite package manager.
 
 + Pathogen
 
+    ```
     git clone http://github.com/iwataka/ctrlproj.vim ~/.vim/bundle/ctrlproj.vim
+    ```
 
 + vim-plug
 
+    ```vim
     Plug 'iwataka/ctrlproj.vim'
+    ```
 
 + NeoBundle
 
-    NeoBundle 'iwatak/ctrlproj.vim'
+    ```vim
+    NeoBundle 'iwataka/ctrlproj.vim'
+    ```
 
 + Vundle
 
+    ```vim
     NeoBundle 'iwataka/ctrlproj.vim'
+    ```
 
 ## Usage
 
@@ -62,6 +70,7 @@ file in ~/.vim and write like below:
 
 If you prefer the latter, write in your .vimrc like this:
 
+    ```vim
     let g:ctrlp_quickref_paths = [
         \ '/directory1/library_or_something_else/src',
         \ '/directory2/*/src',
@@ -69,9 +78,10 @@ If you prefer the latter, write in your .vimrc like this:
         " You want to exclude specified directory, put '!' at the head.
         \ '! /directory3/library_or_something_else/'
     ]
+    ```
 
 That's all!
-Run the command :Ctrlproj and you get CtrlP interface with paths you registered
+Run the command `:Ctrlproj` and you get CtrlP interface with paths you registered
 before.
 
 Now you can hit the enter on selected path and get CtrlP interface again.
@@ -79,54 +89,54 @@ In this way, Ctrlproj provides very quick access to files in any other projects.
 
 You can press other keys like:
 
-+ <c-t> to delete all buffers in the current project and move the current
++ `<c-t>` to delete all buffers in the current project and move the current
     directory to the selected project.
 
-+ <c-v> to move the current directory to the selected project without removing
++ `<c-v>` to move the current directory to the selected project without removing
     buffers.
 
-+ <c-x> to open the default file-explorer in the selected project.
++ `<c-x>` to open the default file-explorer in the selected project.
 
 More additional commands are provided by Ctrlproj:
 
-+ :CtrlprojLastDir
++ `:CtrlprojLastDir`
 
     Open CtrlP interface in the last selected directory.
 
-+ :CtrlprojAlternate
++ `:CtrlprojAlternate`
 
     Toggle current buffer to the files which have same names but different
     extensions.
 
-+ :CtrlprojSwitch
++ `:CtrlprojSwitch`
 
     Toggle current focused code to its test or vice versa.
 
-+ :CtrlprojRemoveBuffers
++ `:CtrlprojRemoveBuffers`
 
     Remove all buffers included in the current project.
 
-+ :CtrlprojEdit
++ `:CtrlprojEdit`
 
     Open the file you register the paths.
 
 ## Options
 
-+ ctrlproj_readonly_enabled
++ `g:ctrlproj_readonly_enabled`
 
     Set this to 0 to open files without readonly flag (default: 1).
 
-+ ctrlproj_open_extensions
++ `g:ctrlproj_open_extensions`
 
     If you open files which have extensions contained in this list, they are
     opened by "open-command" (default: ['html', 'pdf']).
 
-+ ctrlproj_configuration_file
++ `g:ctrlproj_configuration_file`
 
     If you want to write paths in other file, set this to the path (default:
     '~/.vim/.ctrlproj').
 
-+ ctrlproj_paths
++ `g:ctrlproj_paths`
 
     This list contains paths which are the candidates of this plug-in (default:
     []).
