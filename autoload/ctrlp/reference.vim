@@ -5,7 +5,9 @@ let g:loaded_ctrlp_reference = 1
 
 let s:open_command = ''
 if has('unix')
-    let s:open_command = 'xdg-open'
+    if executable('xdg-open')
+        let s:open_command = 'xdg-open'
+    en
 elsei has('win32unix')
     let s:open_command = 'cygstart'
 elsei has('win32') || has('win64')
@@ -31,7 +33,11 @@ endf
 
 fu! ctrlp#reference#accept(mode, str)
     if s:check_extension(a:str)
-        call system(s:open_command.' '.a:str)
+        if s:open_command != ''
+            call system(s:open_command.' '.a:str)
+        else
+            echoe "You don't have the command to open files"
+        en
         call ctrlp#exit()
     el
         if g:ctrlproj_readonly_enabled
