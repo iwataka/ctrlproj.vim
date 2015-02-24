@@ -3,6 +3,10 @@ if exists('g:loaded_ctrlproj') && g:loaded_ctrlproj || v:version < 700 || &cp
 en
 let g:loaded_ctrlproj = 1
 
+if !exists('g:ctrlproj_paths')
+    let g:ctrlproj_paths = []
+en
+
 if !exists('g:ctrlproj_readonly_enabled')
     let g:ctrlproj_readonly_enabled = 1
 en
