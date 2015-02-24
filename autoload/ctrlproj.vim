@@ -58,6 +58,13 @@ fu! ctrlproj#switch_current_buffer_by_template()
     en
 endf
 
+fu! ctrlproj#alternate_current_buffer()
+    let l:files = ctrlproj#alternate('.', '%')
+    for fl in l:files
+        silent exe "norm! :e ".fl."\<cr>"
+    endfo
+endf
+
 fu! ctrlproj#switch(path, file)
     let l:test_mark = '\(\(test\)\|\(spec\)\|\(Test\)\|\(Spec\)\)'
     let l:files = ctrlproj#files(a:path)
@@ -92,6 +99,22 @@ fu! ctrlproj#switch_by_template(path)
             retu substitute(a:path, l:value_regex, '\1'.l:front.'\2'.l:rear, '')
         en
     endfo
+endf
+
+fu! ctrlproj#alternate(path, file)
+    let l:files = ctrlproj#files(a:path)
+    let l:result = []
+    let l:expanded_filename = expand(a:file)
+    let l:rootname = fnamemodify(expanded_filename, ':t:r')
+    let l:extension = fnamemodify(expanded_filename, ':t:e')
+    for fl in l:files
+        let l:rt = fnamemodify(fl, ':t:r')
+        let l:ex = fnamemodify(fl, ':t:e')
+        if l:rt ==? l:rootname && l:ex != l:extension
+            cal add(l:result, fl)
+        en
+    endfo
+    retu l:result
 endf
 
 fu! ctrlproj#edit()
