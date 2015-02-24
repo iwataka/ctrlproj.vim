@@ -1,53 +1,51 @@
-*ctrlp-quickref.txt*    provides quick access to any references
-*ctrlp_quickref* *CtrlP-QuickRef* *CtrlP-Quickref* *CtrlP_QuickRef* *CtrlP_Quickref*
+*ctrlproj.txt*    provides quick access to any references
+*ctrlproj* *CtrlProj* *Ctrlproj*
 ===============================================================================
-                         .__        __                    _____  ~
-              ________ __|__| ____ |  | _________   _____/ ____\ ~
-             / ____/  |  \  |/ ___\|  |/ /\_  __ \_/ __ \   __\  ~
-            < <_|  |  |  /  \  \___|    <  |  | \/\  ___/|  |    ~
-             \__   |____/|__|\___  >__|_ \ |__|    \___  >__|    ~
-                |__|             \/     \/             \/        ~
+        _________   __         .__                          __  ~
+        \_   ___ \_/  |________|  | _____________  ____    |__| ~
+        /    \  \/\   __\_  __ \  | \____ \_  __ \/  _ \   |  | ~
+        \     \____|  |  |  | \/  |_|  |_> >  | \(  <_> )  |  | ~
+         \______  /|__|  |__|  |____/   __/|__|   \____/\__|  | ~
+                \/                  |__|               \______| ~
 ===============================================================================
-CONTENTS                                            *ctrlp-quickref-contents*
+CONTENTS                                            *ctrlproj-contents*
 
-    1. Intro.................................|ctrlp-quickref-intro|
-    2. Usage.................................|ctrlp-quickref-usage|
-    2. Options...............................|ctrlp-quickref-options|
-    3. Commands..............................|ctrlp-quickref-commands|
-    4. Mappings..............................|ctrlp-quickref-mappings|
-    5. License...............................|ctrlp-quickref-license|
-
-===============================================================================
-INTRO                                                  *ctrlp-quickref-intro*
-
-This plug-in is an extension of CtrlP and provides quick access to any
-references in your local environment. Install this plug-in and register some
-paths in specified variable or file, then you can open any files on the fly.
-
-This plug-in also detect extensions of files and when opening files with
-specified extensions like html or pdf, they are opened by "open-command"
-which is "open" in Mac OS, "xdg-open" in Linux OS, "start" in Windows OS or
-"cygstart" in Cygwin environment.
+    1. Intro.................................|ctrlproj-intro|
+    2. Usage.................................|ctrlproj-usage|
+    2. Options...............................|ctrlproj-options|
+    3. Commands..............................|ctrlproj-commands|
+    4. Mappings..............................|ctrlproj-mappings|
+    5. License...............................|ctrlproj-license|
 
 ===============================================================================
-USAGE                                                  *ctrlp-quickref-usage*
+INTRO                                                  *ctrlproj-intro*
 
-After installing this plug-in, you should register some paths you want to
-search in g:ctrlp_quickref_paths variable or ~/.ctrlp-quickref file. If you
-want to register paths in the variable, you should write them like below in
-your vimrc.
+Ctrlproj is an abbreviation of "CtrlP + Project" and provides great project
+management features powered by CtrlP. This is based on my first Vim's plug-in
+ctrlp-quickref.vim(https://github.com/iwataka/ctrlp-quickref.vim) and shipped
+with a lot of additional features. Though this is an early-stage experimental
+project, this aims to import the features of the awesome pair of Emacs's
+Projectile(https://github.com/bbatsov/projectile) and
+Helm(https://github.com/emacs-helm/helm) by utilizing
+CtrlP(https://github.com/ctrlpvim/ctrlp.vim).
 
-    let g:ctrlp_quickref_paths = [
-        \ '/directory1/library_or_something_else/src',
-        \ '/directory2/*/src',
-        \ '/directory3/*',
-        " You want to exclude specified directory, put '!' at the head.
-        \ '! /directory3/library_or_something_else/'
-    ]
+At present, this project includes these features:
 
-Wildcards are automatically expanded.
-If you want to write paths in other file, you should make ~/.ctrlp-quickref
-file and write them like below in it.
++ switch between projects
++ toggle between files with same names but different extensions
++ toggle between code and its test (experimental)
++ kill all buffers in working project
++ open files in any other projects
+
+Of course Ctrlproj is fully integrated with CtrlP's features.
+
+===============================================================================
+USAGE                                                  *ctrlproj-usage*
+
+After installing this plug-in, you should register some paths to your projects,
+libraries or application sources in ~/.vim/.ctrlproj file (recommended) or
+g:ctrlproj_paths variable. If you prefer the former, you should create .ctrlproj
+file in ~/.vim and write like below:
 
     # Write
     # Some
@@ -61,71 +59,99 @@ file and write them like below in it.
     # You can also exclude specified directory by writing like this
     ! /directory3/library_or_something_else
 
-That's all you should do. As you can see, you can write paths like doing in
-gitignore or something like that.
+If you prefer the latter, write in your .vimrc like this:
 
-Then you run the command :CtrlPQuickRef and get CtrlP interface with paths
-which are registered by you. After you choose one of them by typing some
-characters and hit Enter, you get CtrlP interface again with files in selected
-path. If you selected one or more of these files, they are opened in Vim. They
-are opened with readonly flag by default.  Doing like this, you can open any
-files on the fly.
+    let g:ctrlp_quickref_paths = [
+        \ '/directory1/library_or_something_else/src',
+        \ '/directory2/*/src',
+        \ '/directory3/*',
+        " You want to exclude specified directory, put '!' at the head.
+        \ '! /directory3/library_or_something_else/'
+    ]
+
+That's all!
+Run the command :Ctrlproj and you get CtrlP interface with paths you registered
+before.
+You can select specified path by pressing these keys:
+
++ <enter> to open CtrlP interface in the selected directory.
+
++ <c-t>   to delete all buffers in the current project and move the current
+          directory to the selected project.
+
++ <c-v>   to move the current directory to the selected project without
+          removing buffers
+
++ <c-x>   to open the default file-explorer in the selected project.
 
 ===============================================================================
-OPTIONS                                              *ctrlp-quickref-options*
+OPTIONS                                              *ctrlproj-options*
 
 Overview:~
 
-|ctrlp_quickref_readonly_enabled|......Open files with readonly flag.
-|ctrlp_quickref_open_extensions|.......Indicates which file is opened out of
+|ctrlproj_readonly_enabled|......Open files with readonly flag.
+|ctrlproj_open_extensions|.......Indicates which file is opened out of
 Vim.
-|ctrlp_quickref_configuration_file|.....The path which indicates the
+|ctrlproj_configuration_file|.....The path which indicates the
 configuration file
-|ctrlp_quickref_paths|..................The candidates of this plug-in.
+|ctrlproj_paths|..................The candidates of this plug-in.
 
 -------------------------------------------------------------------------------
 Detailed descriptions and default values:~
 
-                                         *'g:ctrlp_quickref_readonly_enabled'*
+                                         *'g:ctrlproj_readonly_enabled'*
 Set this to 0 to open files without readonly flag.
-    let g:ctrlp_quickref_readonly_enabled = 1
+    let g:ctrlproj_readonly_enabled = 1
 
-                                         *'g:ctrlp_quickref_open_extensions'*
+                                         *'g:ctrlproj_open_extensions'*
 If you open files which have extensions contained in this list, they are
 opened in specified browser or PDF viewer or else.
-    let g:ctrlp_quickref_open_extensions = ['html', 'pdf']
+    let g:ctrlproj_open_extensions = ['html', 'pdf']
 
-                                         *'g:ctrlp_quickref_configuration_file'*
+                                         *'g:ctrlproj_configuration_file'*
 This is the path which indicates the configuration file.
-    let g:ctrlp_quickref_configuration_file = '~/.ctrlp-quickref'
+    let g:ctrlproj_configuration_file = '~/.vim/.ctrlproj'
 
-                                         *'g:ctrlp_quickref_paths'*
+                                         *'g:ctrlproj_paths'*
 This list contains paths which are the candidates of this plug-in.
-    let g:ctrlp_quickref_paths = []
+    let g:ctrlproj_paths = []
 
 ===============================================================================
-COMMANDS                                            *ctrlp-quickref-commands*
+COMMANDS                                            *ctrlproj-commands*
 
-                                                         *:CtrlPQuickRef*
-:CtrlPQuickRef
+                                                         *:Ctrlproj*
+:Ctrlproj
     Open CtrlP interface with specified paths.
 
-                                                         *:CtrlPQuickRefLastDir*
-:CtrlPQuickRefLastDir
+                                                         *:CtrlprojLastDir*
+:CtrlprojLastDir
     Open CtrlP interface in last selected directory.
 
-                                                         *:CtrlPQuickRefEdit*
-:CtrlPQuickRefEdit
-    Open the configuration file (~/.ctrlp-quickref by default).
+                                                         *:CtrlprojAlternate*
+:CtrlprojAlternate
+    Toggle current buffer to the files which have same names but different
+    extensions.
+
+                                                         *:CtrlprojSwitch*
+:CtrlprojSwitch
+    Toggle current focused code to its test or vice versa.
+
+                                                         *:CtrlprojRemoveBuffers*
+:CtrlprojRemoveBuffers
+    Remove all buffers included in the current project.
+
+                                                         *:CtrlprojEdit*
+:CtrlprojEdit
+    Open the configuration file (~/.vim/.ctrlproj by default).
 
 ===============================================================================
-MAPPINGS                                            *ctrlp-quickref-mappings*
+MAPPINGS                                            *ctrlproj-mappings*
 
 This plug-in defines no mappings. If you want to know mappings in CtrlP
 interface, read CtrlP help.
 
 ===============================================================================
-LICENSE                                            *ctrlp-quickref-license*
+LICENSE                                            *ctrlproj-license*
 
 Copyright(c) 2015 Takatoshi Iwasa
 Released under the MIT license
