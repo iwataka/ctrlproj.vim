@@ -107,6 +107,10 @@ More additional commands are provided by Ctrlproj:
 
     Open CtrlP interface in the last selected directory.
 
++ `:CtrlprojEdit`
+
+    Open the file you register the paths.
+
 + `:CtrlprojAlternate`
 
     Toggle current buffer to the files which have same names but different
@@ -120,9 +124,7 @@ More additional commands are provided by Ctrlproj:
 
     Remove all buffers included in the current project.
 
-+ `:CtrlprojEdit`
-
-    Open the file you register the paths.
+The last three commands utilizes the files which are cached by CtrlP.
 
 ## Options
 

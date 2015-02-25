@@ -137,6 +137,10 @@ COMMANDS                                            *ctrlproj-commands*
 :CtrlprojLastDir
     Open CtrlP interface in last selected directory.
 
+                                                         *:CtrlprojEdit*
+:CtrlprojEdit
+    Open the configuration file (~/.vim/.ctrlproj by default).
+
                                                          *:CtrlprojAlternate*
 :CtrlprojAlternate
     Toggle current buffer to the files which have same names but different
@@ -153,9 +157,7 @@ COMMANDS                                            *ctrlproj-commands*
 :CtrlprojRemoveBuffers
     Remove all buffers included in the current project.
 
-                                                         *:CtrlprojEdit*
-:CtrlprojEdit
-    Open the configuration file (~/.vim/.ctrlproj by default).
+The last three commands utilizes the files which are cached by CtrlP.
 
 ===============================================================================
 MAPPINGS                                            *ctrlproj-mappings*
