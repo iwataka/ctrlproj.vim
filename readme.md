@@ -52,30 +52,28 @@ You can use your favorite package manager.
 ## Usage
 
 After installing this plug-in, you should register some paths to your projects,
-libraries or application sources in ~/.vim/.ctrlproj file (recommended) or
-g:ctrlproj_paths variable. If you prefer the former, you should create .ctrlproj
-file in ~/.vim and write like below:
+libraries or application sources in `~/.vim/.ctrlproj` file (recommended) or
+`g:ctrlproj_paths` variable. If you prefer the former, you should create `.ctrlproj`
+file in `~/.vim` and write like below:
 
     # Write
     # Some
     # Comments
-    /directory1/library_or_something_else/src
-    /directory2/*/src
+    /path/to/specified/project
 
     # Additional comment
-    /directory3/*
+    /path/to/specified/directory/*
 
     # You can also exclude specified directory by writing like this
-    ! /directory3/library_or_something_else
+    ! /path/to/project/you/want/to/exclude
 
 If you prefer the latter, write in your .vimrc like this:
 
     let g:ctrlp_quickref_paths = [
-        \ '/directory1/library_or_something_else/src',
-        \ '/directory2/*/src',
-        \ '/directory3/*',
+        \ '/path/to/specified/project',
+        \ '/path/to/specified/directory/*',
         " You want to exclude specified directory, put '!' at the head.
-        \ '! /directory3/library_or_something_else/'
+        \ '! /path/to/project/you/want/to/exclude'
     ]
 
 That's all!
@@ -84,12 +82,16 @@ before.
 
 ![Demo1](https://github.com/iwataka/images/blob/master/Ctrlproj1.png)
 
-Now you can hit the enter on selected path and get CtrlP interface again.
-In this way, Ctrlproj provides very quick access to files in any other projects.
+You can narrow the choices by typing characters and press `<c-j>` to scroll
+down and `<c-k>` to scroll up. If you want to see more detail about CtrlP
+interface, you should refer to its help
 
-![Demo2](https://github.com/iwataka/images/blob/master/Ctrlproj2.png)
+Then you can press these keys to select one of the projects:
 
-You can press other keys like:
++ `<enter>` to get CtrlP interface again in the selected project.  You can
+    select files by default CtrlP's key-binds in it, but they are opened by
+    open-command if you select ones which have the extensions like pdf, html or
+    something like that.
 
 + `<c-t>` to delete all buffers in the current project and move the current
     directory to the selected project.
