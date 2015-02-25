@@ -50,23 +50,21 @@ file in ~/.vim and write like below:
     # Write
     # Some
     # Comments
-    /directory1/library_or_something_else/src
-    /directory2/*/src
+    /path/to/specified/project
 
     # Additional comment
-    /directory3/*
+    /path/to/specified/directory/*
 
     # You can also exclude specified directory by writing like this
-    ! /directory3/library_or_something_else
+    ! /path/to/project/you/want/to/exclude
 
 If you prefer the latter, write in your .vimrc like this:
 
     let g:ctrlp_quickref_paths = [
-        \ '/directory1/library_or_something_else/src',
-        \ '/directory2/*/src',
-        \ '/directory3/*',
+        \ '/path/to/specified/project',
+        \ '/path/to/specified/directory/*',
         " You want to exclude specified directory, put '!' at the head.
-        \ '! /directory3/library_or_something_else/'
+        \ '! /path/to/project/you/want/to/exclude'
     ]
 
 That's all!
@@ -74,15 +72,18 @@ Run the command :Ctrlproj and you get CtrlP interface with paths you registered
 before.
 You can select specified path by pressing these keys:
 
-+ <enter> to open CtrlP interface in the selected directory.
++ <enter> to get CtrlP interface again in the selected project. You can select
+files by default CtrlP's key-binds in it, but they are opened by open-command
+if you select ones which have the extensions like pdf, html or something like
+that.
 
-+ <c-t>   to delete all buffers in the current project and move the current
-          directory to the selected project.
++ <c-t> to delete all buffers in the current project and move the current
+directory to the selected project.
 
-+ <c-v>   to move the current directory to the selected project without
-          removing buffers
++ <c-v> to move the current directory to the selected project without
+removing buffers
 
-+ <c-x>   to open the default file-explorer in the selected project.
++ <c-x> to open the default file-explorer in the selected project.
 
 ===============================================================================
 OPTIONS                                              *ctrlproj-options*
