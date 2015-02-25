@@ -14,7 +14,8 @@ project, this aims to import the features of the awesome pair of Emacs's
 At present, this project includes these features:
 
 + switch between projects
-+ toggle between files with same names but different extensions
++ toggle between files with same names but different extensions (i.e.
+    .h<->.c/.cpp)
 + toggle between code and its test (experimental)
 + kill all buffers in working project
 + open files in any other projects
