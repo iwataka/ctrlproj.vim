@@ -61,7 +61,7 @@ file in ~/.vim and write like below:
 
 If you prefer the latter, write in your .vimrc like this:
 
-    let g:ctrlp_quickref_paths = [
+    let g:ctrlproj_paths = [
         \ '/path/to/specified/project',
         \ '/path/to/specified/directory/*',
         " You want to exclude specified directory, put '!' at the head.
