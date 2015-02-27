@@ -1,5 +1,7 @@
 # ctrlproj.vim
 
+![Build Status](https://travis-ci.org/iwataka/ctrlproj.vim.svg?branch=master)
+
 ## Introduction
 
 **Ctrlproj** is an abbreviation of "CtrlP + Project" and provides great project
