@@ -1,5 +1,5 @@
 com! -bar Ctrlproj cal ctrlp#init(ctrlproj#id())
-com! -bar CtrlprojLastDir cal ctrlp#init(ctrlproj#ref#id(), {'dir': g:ctrlproj_last_dir})
+com! -bar CtrlprojLastDir cal ctrlproj#init_lastdir()
 com! -bar CtrlprojEdit cal ctrlproj#edit()
 com! -bar CtrlprojSwitch cal ctrlproj#switch_current_buffer()
 com! -bar CtrlprojAlternate cal ctrlproj#alternate_current_buffer()

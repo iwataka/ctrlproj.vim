@@ -15,10 +15,6 @@ if !exists('g:ctrlproj_open_extensions')
     let g:ctrlproj_open_extensions = ['html', 'pdf']
 en
 
-if !exists('g:ctrlproj_last_dir')
-    let g:ctrlproj_last_dir = ''
-en
-
 if !exists('g:ctrlproj_configuration_path')
     if has('win32') || has('win64')
         g:ctrlproj_configuration_path = '~/vimfiles/.ctrlproj'
@@ -33,6 +29,8 @@ if !exists('g:ctrlproj_src2test')
         \ 'src/main/scala/*.scala': 'src/test/scala/*Test.scala'
         \ }
 en
+
+let s:lastdir = ''
 
 fu! ctrlproj#switch_current_buffer()
     let l:bufname = fnamemodify(bufname("%"), ":p")
@@ -115,6 +113,10 @@ fu! ctrlproj#edit()
     silent exe "normal! :e ".g:ctrlproj_configuration_path."\<cr>"
 endf
 
+fu! ctrlproj#init_lastdir()
+  cal ctrlp#init(ctrlproj#ref#id(), {'dir': s:lastdir})
+endfu
+
 " Note that this chanegs the current directory in current window.
 fu! ctrlproj#files(path)
     let l:fullpath = fnamemodify(expand(a:path), ":p")
@@ -186,7 +188,7 @@ fu! ctrlproj#accept(mode, str)
     elsei a:mode == 'v'
         silent exe "norm! :cd ".a:str."\<cr>"
     else
-        let g:ctrlproj_last_dir = a:str
+        let s:lastdir = a:str
         call ctrlp#init(ctrlproj#ref#id(), {'dir': a:str})
     en
 endf
