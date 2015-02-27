@@ -1,0 +1,9 @@
+# Comment
+# Additional comment
+
+autoload/*/* # Trailing comment
+
+t/*/path_config # Trailing comment
+
+
+autoload/*
