@@ -34,17 +34,6 @@ if !exists('g:ctrlproj_src2test')
         \ }
 en
 
-" This function partite a given string once
-fu! s:partition(str, mid)
-    let l:idx = stridx(a:str, a:mid)
-    if l:idx != -1
-        let l:len = strlen(a:mid)
-        retu [a:str[:(l:idx - 1)], a:str[(l:idx + l:len):]]
-    else
-        retu [a:str, '']
-    en
-endf
-
 fu! ctrlproj#switch_current_buffer()
     let l:bufname = fnamemodify(bufname("%"), ":p")
     let l:alt_name = ctrlproj#switch_by_template(l:bufname)
@@ -96,10 +85,10 @@ fu! ctrlproj#switch_by_template(path)
         let l:key_regex = l:all_regex.substitute(key, '*', l:path_regex, '')
         let l:value_regex = l:all_regex.substitute(value, '*', l:path_regex, '')
         if a:path =~ l:key_regex
-            let [l:front, l:rear] = s:partition(value, '*')
+            let [l:front, l:rear] = ctrlproj#utils#partition(value, '*')
             retu substitute(a:path, l:key_regex, '\1'.l:front.'\2'.l:rear, '')
         elsei a:path =~ l:value_regex
-            let [l:front, l:rear] = s:partition(key, '*')
+            let [l:front, l:rear] = ctrlproj#utils#partition(key, '*')
             retu substitute(a:path, l:value_regex, '\1'.l:front.'\2'.l:rear, '')
         en
     endfo
@@ -144,7 +133,7 @@ fu! ctrlproj#remove_buffers(path)
         if bufexists(l:bufnr)
             let l:name = bufname(l:bufnr)
             if !getbufvar(l:bufnr, "&readonly") && getbufvar(l:bufnr, "&modifiable")
-                if s:contains(l:files, l:name)
+                if ctrlproj#utils#contains(l:files, l:name)
                     if getbufvar(l:bufnr, "&modified")
                         let l:res = input("Save changes in ".l:name."? ")
                         if l:res =~ '[[yY]\|\(yes\)\|\(Yes\)\|\(YES\)]'
@@ -167,31 +156,10 @@ fu! ctrlproj#remove_buffers_inside_project()
     cal ctrlproj#remove_buffers(l:cd)
 endf
 
-fu! s:read_config(lines)
-    let l:exclusive_paths = []
-    let l:inclusive_paths = []
-    for line in a:lines
-        if line =~ '^!\s\?'
-            let l:tmp_paths = split(expand(substitute(line, '^!\s\?', "", "")), '\n')
-            call s:add_directories(l:exclusive_paths, l:tmp_paths)
-        elseif line !~ '^#' && line != ''
-            let l:tmp_paths = split(expand(line), '\n')
-            call s:add_directories(l:inclusive_paths, l:tmp_paths)
-        en
-    endfo
-    let l:paths = []
-    for path in l:inclusive_paths
-        if !s:contains(exclusive_paths, path)
-            call add(l:paths, path)
-        en
-    endfo
-    retu l:paths
-endf
-
 fu! s:read_file_config()
     if filereadable(expand(g:ctrlproj_configuration_path))
         let l:lines = readfile(expand(g:ctrlproj_configuration_path))
-        retu s:read_config(l:lines)
+        retu ctrlproj#utils#read_paths(l:lines)
     el
         retu []
     en
@@ -199,27 +167,10 @@ endf
 
 fu! s:read_variable_config()
     if exists('g:ctrlproj_paths')
-        retu s:read_config(g:ctrlproj_paths)
+        retu ctrlproj#utils#read_paths(g:ctrlproj_paths)
     el
         retu []
     en
-endf
-
-fu! s:add_directories(list, paths)
-    for path in a:paths
-        if isdirectory(path)
-            call add(a:list, path)
-        en
-    endfo
-endf
-
-fu! s:contains(list, item)
-    for i in a:list
-        if i == a:item
-            retu 1
-        en
-    endfo
-    retu 0
 endf
 
 call add(g:ctrlp_ext_vars, {
