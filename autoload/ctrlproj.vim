@@ -245,7 +245,7 @@ fu! ctrlproj#accept(mode, str)
         silent exe "norm! :cd ".a:str."\<cr>"
     else
         let g:ctrlproj_last_dir = a:str
-        call ctrlp#init(ctrlp#reference#id(), {'dir': a:str})
+        call ctrlp#init(ctrlproj#ref#id(), {'dir': a:str})
     en
 endf
 
