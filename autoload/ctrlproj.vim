@@ -156,23 +156,6 @@ fu! ctrlproj#remove_buffers_inside_project()
     cal ctrlproj#remove_buffers(l:cd)
 endf
 
-fu! s:read_file_config()
-    if filereadable(expand(g:ctrlproj_configuration_path))
-        let l:lines = readfile(expand(g:ctrlproj_configuration_path))
-        retu ctrlproj#utils#read_paths(l:lines)
-    el
-        retu []
-    en
-endf
-
-fu! s:read_variable_config()
-    if exists('g:ctrlproj_paths')
-        retu ctrlproj#utils#read_paths(g:ctrlproj_paths)
-    el
-        retu []
-    en
-endf
-
 call add(g:ctrlp_ext_vars, {
     \ 'init': 'ctrlproj#init()',
     \ 'accept': 'ctrlproj#accept',
@@ -182,7 +165,15 @@ call add(g:ctrlp_ext_vars, {
     \ })
 
 fu! ctrlproj#init()
-    retu s:read_file_config() + s:read_variable_config()
+    retu ctrlproj#utils#parse_file(g:ctrlproj_configuration_path) + s:read_var_config()
+endf
+
+fu! s:read_var_config()
+    if exists('g:ctrlproj_paths')
+        retu ctrlproj#utils#parse(g:ctrlproj_paths)
+    el
+        retu []
+    en
 endf
 
 fu! ctrlproj#accept(mode, str)

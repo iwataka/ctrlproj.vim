@@ -13,6 +13,14 @@ fu! ctrlproj#utils#contains(list, item)
     retu 0
 endf
 
+fu! ctrlproj#utils#contains_regex(list, regex)
+  for i in a:list
+    if i =~ a:regex
+      retu 1
+    endif
+  endfor
+endfu
+
 " Partites a given string once
 fu! ctrlproj#utils#partition(str, mid)
     let l:idx = stridx(a:str, a:mid)
@@ -33,7 +41,17 @@ fu! ctrlproj#utils#add_dirs(list, paths)
     endfo
 endf
 
-fu! ctrlproj#utils#read_paths(lines)
+fu! ctrlproj#utils#parse_file(file)
+    let l:fl = expand(a:file)
+    if filereadable(l:fl)
+        let l:lines = readfile(l:fl)
+        retu ctrlproj#utils#parse(l:lines)
+    el
+        retu []
+    en
+endf
+
+fu! ctrlproj#utils#parse(lines)
     let l:exclusive_paths = []
     let l:inclusive_paths = []
     for line in a:lines
