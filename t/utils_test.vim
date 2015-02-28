@@ -47,10 +47,27 @@ describe 'ctrlproj#utils#add_dirs'
   end
 end
 
-describe 'ctrlproj#utils#read_paths'
+describe 'ctrlproj#utils#parse'
   it 'returns a list one of whose items contains "autoload/ctrlproj"'
     let paths = ctrlproj#utils#parse_file('t/fixtures/path_config')
     Expect ctrlproj#utils#contains_regex(paths, 'autoload/ctrlproj') == 1
     Expect ctrlproj#utils#contains_regex(paths, 't/fixtures') == 0
+  end
+end
+
+describe 'ctrlproj#utils#switch_by_templates'
+  it 'can switch in java project'
+    let dict = {'src/main/java/**/*.java': 'src/test/java/**/*Test.java'}
+    let main = 'path/to/sub/proj/src/main/java/foo/package/Bar.java'
+    let test = 'path/to/sub/proj/src/test/java/foo/package/BarTest.java'
+    Expect ctrlproj#utils#switch_by_template(main, dict) == test
+    Expect ctrlproj#utils#switch_by_template(test, dict) == main
+  end
+  it 'can switch in scala project'
+    let dict = {'src/main/scala/**/*.scala': 'src/test/scala/**/*Test.scala'}
+    let main = 'path/to/sub/proj/src/main/scala/foo/package/Bar.scala'
+    let test = 'path/to/sub/proj/src/test/scala/foo/package/BarTest.scala'
+    Expect ctrlproj#utils#switch_by_template(main, dict) == test
+    Expect ctrlproj#utils#switch_by_template(test, dict) == main
   end
 end
