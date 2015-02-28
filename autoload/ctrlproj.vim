@@ -25,8 +25,8 @@ en
 
 if !exists('g:ctrlproj_src2test')
     let g:ctrlproj_src2test = {
-        \ 'src/main/java/*.java': 'src/test/java/*Test.java',
-        \ 'src/main/scala/*.scala': 'src/test/scala/*Test.scala'
+        \ 'src/main/java/**/*.java': 'src/test/java/**/*Test.java',
+        \ 'src/main/scala/**/*.scala': 'src/test/scala/**/*Test.scala'
         \ }
 en
 
@@ -34,7 +34,7 @@ let s:lastdir = ''
 
 fu! ctrlproj#switch_current_buffer()
     let l:bufname = fnamemodify(bufname("%"), ":p")
-    let l:alt_name = ctrlproj#switch_by_template(l:bufname)
+    let l:alt_name = ctrlproj#utils#switch_by_template(l:bufname, g:ctrlproj_src2test)
     if l:alt_name != ''
         silent exe "norm! :e ".l:alt_name."\<cr>"
     else
@@ -74,23 +74,6 @@ fu! ctrlproj#switch(path, file)
         en
     endfo
     retu l:result
-endf
-
-fu! ctrlproj#switch_by_template(path)
-    let l:all_regex = '\(.*\)'
-    let l:path_regex = '\\(\\([^/]\\+/\\)*[^/]\\+\\)'
-    for [key, value] in items(g:ctrlproj_src2test)
-        let l:key_regex = l:all_regex.substitute(key, '*', l:path_regex, '')
-        let l:value_regex = l:all_regex.substitute(value, '*', l:path_regex, '')
-        if a:path =~ l:key_regex
-            let [l:front, l:rear] = ctrlproj#utils#partition(value, '*')
-            retu substitute(a:path, l:key_regex, '\1'.l:front.'\2'.l:rear, '')
-        elsei a:path =~ l:value_regex
-            let [l:front, l:rear] = ctrlproj#utils#partition(key, '*')
-            retu substitute(a:path, l:value_regex, '\1'.l:front.'\2'.l:rear, '')
-        en
-    endfo
-    retu ''
 endf
 
 fu! ctrlproj#alternate(path, file)

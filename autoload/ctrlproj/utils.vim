@@ -24,8 +24,10 @@ endfu
 " Partites a given string once
 fu! ctrlproj#utils#partition(str, mid)
     let l:idx = stridx(a:str, a:mid)
-    if l:idx != -1
-        let l:len = strlen(a:mid)
+    let l:len = strlen(a:mid)
+    if l:idx == 0
+        retu ['', a:str[1:]]
+    elsei l:idx != -1
         retu [a:str[:(l:idx - 1)], a:str[(l:idx + l:len):]]
     else
         retu [a:str, '']
@@ -70,4 +72,26 @@ fu! ctrlproj#utils#parse(lines)
         en
     endfo
     retu l:paths
+endf
+
+fu! ctrlproj#utils#switch_by_template(path, dict)
+    let l:all_regex = '\(.*\)'
+    let l:path_regex = '\\(\\([^/]\\+/\\)*\\)'
+    let l:tail_regex = '\\([^/]\\+\\)'
+    for [key, val] in items(a:dict)
+        let l:key_regex = substitute(key, '\([^\*]\)\(\*\)\([^\*]\)', '\1'.l:tail_regex.'\3', '')
+        let l:key_regex = l:all_regex.substitute(l:key_regex, '\*\*/', l:path_regex, '')
+        let l:val_regex = substitute(val, '\([^\*]\)\(\*\)\([^\*]\)', '\1'.l:tail_regex.'\3', '')
+        let l:val_regex = l:all_regex.substitute(l:val_regex, '\*\*/', l:path_regex, '')
+        if a:path =~ l:key_regex
+            let [l:front, l:mid] = ctrlproj#utils#partition(val, '**/')
+            let [l:mid, l:rear] = ctrlproj#utils#partition(l:mid, '*')
+            retu substitute(a:path, l:key_regex, '\1'.l:front.'\2'.l:mid.'\4'.l:rear, '')
+        elsei a:path =~ l:val_regex
+            let [l:front, l:mid] = ctrlproj#utils#partition(key, '**/')
+            let [l:mid, l:rear] = ctrlproj#utils#partition(l:mid, '*')
+            retu substitute(a:path, l:val_regex, '\1'.l:front.'\2'.l:mid.'\4'.l:rear, '')
+        en
+    endfo
+    retu ''
 endf
