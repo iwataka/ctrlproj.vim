@@ -47,12 +47,19 @@ describe 'ctrlproj#utils#add_dirs'
   end
 end
 
-describe 'ctrlproj#utils#parse'
+describe 'ctrlproj#utils#parse_file'
   it 'returns a list one of whose items contains "autoload/ctrlproj"'
     let paths = ctrlproj#utils#parse_file('t/fixtures/path_config')
     Expect ctrlproj#utils#contains_regex(paths, 'autoload/ctrlproj') == 1
     Expect ctrlproj#utils#contains_regex(paths, 't/fixtures') == 0
   end
+end
+
+describe 'ctrlproj#utils#convert_path_wildcard'
+  it 'returns "\\(.*\\)src/main/java/\\(\\([^/]\\+/\\)*\\)\\([^/]\\+\\).java"'
+    let path = 'src/main/java/**/*.java'
+    let result = '\(.*\)src/main/java/\(\([^/]\+/\)*\)\([^/]\+\).java'
+    Expect ctrlproj#utils#convert_path_wildcard(path) == result
 end
 
 describe 'ctrlproj#utils#switch_by_templates'
@@ -69,5 +76,28 @@ describe 'ctrlproj#utils#switch_by_templates'
     let test = 'path/to/sub/proj/src/test/scala/foo/package/BarTest.scala'
     Expect ctrlproj#utils#switch_by_template(main, dict) == test
     Expect ctrlproj#utils#switch_by_template(test, dict) == main
+  end
+  it 'can switch in ruby-on-rails project'
+    let dict = {
+      \ 'app/admin/*.rb': 'spec/features/admin/*_spec.rb',
+      \ 'app/controllers/*_controller.rb': 'spec/controllers/*_controller_spec.rb',
+      \ 'app/decorators/*_decorator.rb': 'spec/decorators/*_decorator_spec.rb',
+      \ 'app/helpers/*_helper.rb': 'spec/helpers/*_helper_spec.rb',
+      \ 'app/mailers/*_mailers.rb': 'spec/mailers/*_mailer_spec.rb',
+      \ 'app/models/*.rb': 'spec/models/*_spec.rb',
+      \ 'app/workers/*.rb': 'spec/workers/*_spec.rb'
+      \ }
+    let admin = 'path/to/sub/proj/app/admin/foo.rb'
+    let admin_spec = 'path/to/sub/proj/spec/features/admin/foo_spec.rb'
+    Expect ctrlproj#utils#switch_by_template(admin, dict) == admin_spec
+    Expect ctrlproj#utils#switch_by_template(admin_spec, dict) == admin
+    let con = 'path/to/sub/proj/app/controllers/foo_controller.rb'
+    let con_spec = 'path/to/sub/proj/spec/controllers/foo_controller_spec.rb'
+    Expect ctrlproj#utils#switch_by_template(con, dict) == con_spec
+    Expect ctrlproj#utils#switch_by_template(con_spec, dict) == con
+    let dec = 'path/to/sub/proj/app/decorators/foo_decorator.rb'
+    let dec_spec = 'path/to/sub/proj/spec/decorators/foo_decorator_spec.rb'
+    Expect ctrlproj#utils#switch_by_template(dec, dict) == dec_spec
+    Expect ctrlproj#utils#switch_by_template(dec_spec, dict) == dec
   end
 end
