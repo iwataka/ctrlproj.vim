@@ -141,7 +141,7 @@ fu! ctrlproj#remove_buffers(path)
             en
           en
           if !getbufvar(l:bufnr, "&modified")
-            silent exe "norm! :".l:bufnr."bdelete\<cr>"
+            silent! exe "norm! :".l:bufnr."bdelete\<cr>"
           en
         en
       en
