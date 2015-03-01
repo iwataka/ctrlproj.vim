@@ -160,7 +160,7 @@ The last three commands utilizes the files which are cached by CtrlP.
 
     ```vim
     if has('win32') || has('win64')
-      g:ctrlproj_configuration_path = '~/vimfiles/.ctrlproj'
+      let g:ctrlproj_configuration_path = '~/vimfiles/.ctrlproj'
     else
       let g:ctrlproj_configuration_path = '~/.vim/.ctrlproj'
     en
