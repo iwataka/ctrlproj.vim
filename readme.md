@@ -137,27 +137,38 @@ The last three commands utilizes the files which are cached by CtrlP.
 
 + `g:ctrlproj_readonly_enabled`
 
-  Set this to 0 to open files without readonly flag (default: 1).
+  Set this to 0 to open files without readonly flag.
+    let g:ctrlproj_readonly_enabled = 1
 
 + `g:ctrlproj_refresh_enabled`
 
   Set this to 0 to disable refreshing cache files when moving the current
-  directory with removing buffers (default: 1)
+  directory with removing buffers.
+    let g:ctrlproj_refresh_enabled = 1
 
 + `g:ctrlproj_open_extensions`
 
   If you open files which have extensions contained in this list, they are
-  opened by "open-command" (default: ['html', 'pdf']).
+  opened by "open-command".
+    let g:ctrlproj_open_extensions = ['html', 'pdf']
 
 + `g:ctrlproj_configuration_file`
 
-  If you want to write paths in other file, set this to the path (default:
-  '~/.vim/.ctrlproj').
+  If you want to write paths in other file, set this to the path.
+    let g:ctrlproj_configuration_file = '~/.vim/.ctrlproj'
 
 + `g:ctrlproj_paths`
 
-  This list contains paths which are the candidates of this plug-in (default:
-  []).
+  This list contains paths which are the candidates of this plug-in.
+    if has('unix')
+      let g:ctrlproj_paths = [
+        \ '/usr/lib/ruby/[1-9]\+\(\.[1-9]\+\)*',
+        \ '/usr/lib/python[1-9]\+\(\.[1-9]\+\)*',
+        \ '/usr/lib/perl/[1-9]\+\(\.[1-9]\+\)*'
+        \ ]
+    else
+      let g:ctrlproj_paths = []
+    endif
 
 ## Requirement
 
