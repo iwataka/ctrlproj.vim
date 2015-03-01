@@ -135,6 +135,11 @@ The last three commands utilizes the files which are cached by CtrlP.
 
     Set this to 0 to open files without readonly flag (default: 1).
 
++ `g:ctrlproj_refresh_enabled`
+
+    Set this to 0 to disable refreshing cache files when moving the current
+    directory with removing buffers (default: 1)
+
 + `g:ctrlproj_open_extensions`
 
     If you open files which have extensions contained in this list, they are
