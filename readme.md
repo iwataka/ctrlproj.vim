@@ -126,7 +126,7 @@ More additional commands are provided by Ctrlproj:
 + `:CtrlprojSwitch`
 
   Toggle current focused code to its test or vice versa. First this command try
-  to switch the current buffer by using g:ctrlproj_src2test variable. If it
+  to switch the current buffer by using `g:ctrlproj_src2test` variable. If it
   fails, applies built-in function which switch between code and its test.
 
 + `:CtrlprojRemoveBuffers`
@@ -140,19 +140,28 @@ The last three commands utilizes the files which are cached by CtrlP.
 + `g:ctrlproj_readonly_enabled`
 
   Set this to 0 to open files without readonly flag.
+
+    ```vim
     let g:ctrlproj_readonly_enabled = 1
+    ```
 
 + `g:ctrlproj_refresh_enabled`
 
   Set this to 0 to disable refreshing cache files when moving the current
   directory with removing buffers.
+
+    ```vim
     let g:ctrlproj_refresh_enabled = 1
+    ```
 
 + `g:ctrlproj_open_extensions`
 
   If you open files which have extensions contained in this list, they are
   opened by "open-command".
+
+    ```vim
     let g:ctrlproj_open_extensions = ['html', 'pdf']
+    ```
 
 + `g:ctrlproj_configuration_file`
 
