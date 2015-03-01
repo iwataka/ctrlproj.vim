@@ -117,7 +117,15 @@ This is the path which indicates the configuration file.
 
                      *'g:ctrlproj_paths'*
 This list contains paths which are the candidates of this plug-in.
-  let g:ctrlproj_paths = []
+  if has('unix')
+    let g:ctrlproj_paths = [
+      \ '/usr/lib/ruby/[1-9]\+\(\.[1-9]\+\)*',
+      \ '/usr/lib/python[1-9]\+\(\.[1-9]\+\)*',
+      \ '/usr/lib/perl/[1-9]\+\(\.[1-9]\+\)*'
+      \ ]
+  else
+    let g:ctrlproj_paths = []
+  endif
 
                      *'g:ctrlproj_src2test'*
 This list contains pairs of source and test patterns. By default this contains
