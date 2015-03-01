@@ -74,7 +74,7 @@ file in `~/.vim` and write like below:
 
 If you prefer the latter, write in your .vimrc like this:
 
-  ```
+  ```vim
   let g:ctrlproj_paths = [
     \ '/path/to/specified/project',
     \ '/path/to/specified/directory/*',
@@ -157,15 +157,20 @@ The last three commands utilizes the files which are cached by CtrlP.
 + `g:ctrlproj_configuration_file`
 
   If you want to write paths in other file, set this to the path.
+
+    ```vim
     if has('win32') || has('win64')
       g:ctrlproj_configuration_path = '~/vimfiles/.ctrlproj'
     else
       let g:ctrlproj_configuration_path = '~/.vim/.ctrlproj'
     en
+    ```
 
 + `g:ctrlproj_paths`
 
   This list contains paths which are the candidates of this plug-in.
+
+    ```vim
     if has('unix')
       let g:ctrlproj_paths = [
         \ '/usr/lib/ruby/[1-9]\+\(\.[1-9]\+\)*',
@@ -175,12 +180,15 @@ The last three commands utilizes the files which are cached by CtrlP.
     else
       let g:ctrlproj_paths = []
     endif
+    ```
 
 + `g:ctrlproj_src2test`
 
   This list contains paris of source and test patterns. By default this contains
   sample templates for Java, Scala and Ruby on rails. If you use your
   project-specific templates, override this value.
+
+    ```vim
     let g:ctrlproj_src2test = {
       \ 'src/main/java/**/*.java': 'src/test/java/**/*Test.java',
       \ 'src/main/scala/**/*.scala': 'src/test/scala/**/*Test.scala',
@@ -192,6 +200,7 @@ The last three commands utilizes the files which are cached by CtrlP.
       \ 'app/models/*.rb': 'spec/models/*_spec.rb',
       \ 'app/workers/*.rb': 'spec/workers/*_spec.rb'
       \ }
+    ```
 
 ## Requirement
 
