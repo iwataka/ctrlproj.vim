@@ -125,7 +125,9 @@ More additional commands are provided by Ctrlproj:
 
 + `:CtrlprojSwitch`
 
-  Toggle current focused code to its test or vice versa.
+  Toggle current focused code to its test or vice versa. First this command try
+  to switch the current buffer by using g:ctrlproj_src2test variable. If it
+  fails, applies built-in function which switch between code and its test.
 
 + `:CtrlprojRemoveBuffers`
 
