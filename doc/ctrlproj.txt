@@ -113,7 +113,11 @@ opened in specified browser or PDF viewer or else.
 
                      *'g:ctrlproj_configuration_file'*
 This is the path which indicates the configuration file.
-  let g:ctrlproj_configuration_file = '~/.vim/.ctrlproj'
+  if has('win32') || has('win64')
+    g:ctrlproj_configuration_path = '~/vimfiles/.ctrlproj'
+  else
+    let g:ctrlproj_configuration_path = '~/.vim/.ctrlproj'
+  en
 
                      *'g:ctrlproj_paths'*
 This list contains paths which are the candidates of this plug-in.
