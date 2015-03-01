@@ -1,24 +1,24 @@
-*ctrlproj.txt*    provides quick access to any references
+*ctrlproj.txt*  provides quick access to any references
 *ctrlproj* *CtrlProj* *Ctrlproj*
 ===============================================================================
-        _________   __         .__                          __  ~
-        \_   ___ \_/  |________|  | _____________  ____    |__| ~
-        /    \  \/\   __\_  __ \  | \____ \_  __ \/  _ \   |  | ~
-        \     \____|  |  |  | \/  |_|  |_> >  | \(  <_> )  |  | ~
-         \______  /|__|  |__|  |____/   __/|__|   \____/\__|  | ~
-                \/                  |__|               \______| ~
+    _________   __     .__              __  ~
+    \_   ___ \_/  |________|  | _____________  ____ |__| ~
+    / \  \/\   __\_  __ \  | \____ \_  __ \/  _ \   |  | ~
+    \  \____|  |  |  | \/  |_|  |_> >  | \(  <_> )  |  | ~
+     \______  /|__|  |__|  |____/   __/|__|   \____/\__|  | ~
+        \/          |__|         \______| ~
 ===============================================================================
-CONTENTS                                            *ctrlproj-contents*
+CONTENTS                      *ctrlproj-contents*
 
-    1. Intro.................................|ctrlproj-intro|
-    2. Usage.................................|ctrlproj-usage|
-    2. Options...............................|ctrlproj-options|
-    3. Commands..............................|ctrlproj-commands|
-    4. Mappings..............................|ctrlproj-mappings|
-    5. License...............................|ctrlproj-license|
+  1. Intro.................................|ctrlproj-intro|
+  2. Usage.................................|ctrlproj-usage|
+  2. Options...............................|ctrlproj-options|
+  3. Commands..............................|ctrlproj-commands|
+  4. Mappings..............................|ctrlproj-mappings|
+  5. License...............................|ctrlproj-license|
 
 ===============================================================================
-INTRO                                                  *ctrlproj-intro*
+INTRO                         *ctrlproj-intro*
 
 Ctrlproj is an abbreviation of "CtrlP + Project" and provides great project
 management features powered by CtrlP. This is based on my first Vim's plug-in
@@ -41,32 +41,32 @@ At present, this project includes these features:
 Of course Ctrlproj is fully integrated with CtrlP's features.
 
 ===============================================================================
-USAGE                                                  *ctrlproj-usage*
+USAGE                         *ctrlproj-usage*
 
 After installing this plug-in, you should register some paths to your projects,
 libraries or application sources in ~/.vim/.ctrlproj file (recommended) or
 g:ctrlproj_paths variable. If you prefer the former, you should create .ctrlproj
 file in ~/.vim and write like below:
 
-    # Write
-    # Some
-    # Comments
-    /path/to/specified/project
+  # Write
+  # Some
+  # Comments
+  /path/to/specified/project
 
-    # Additional comment
-    /path/to/specified/directory/*
+  # Additional comment
+  /path/to/specified/directory/*
 
-    # You can also exclude specified directory by writing like this
-    ! /path/to/project/you/want/to/exclude
+  # You can also exclude specified directory by writing like this
+  ! /path/to/project/you/want/to/exclude
 
 If you prefer the latter, write in your .vimrc like this:
 
-    let g:ctrlproj_paths = [
-        \ '/path/to/specified/project',
-        \ '/path/to/specified/directory/*',
-        " You want to exclude specified directory, put '!' at the head.
-        \ '! /path/to/project/you/want/to/exclude'
-    ]
+  let g:ctrlproj_paths = [
+    \ '/path/to/specified/project',
+    \ '/path/to/specified/directory/*',
+    " You want to exclude specified directory, put '!' at the head.
+    \ '! /path/to/project/you/want/to/exclude'
+  ]
 
 That's all!
 Run the command :Ctrlproj and you get CtrlP interface with paths you registered
@@ -87,7 +87,7 @@ removing buffers
 + <c-x> to open the default file-explorer in the selected project.
 
 ===============================================================================
-OPTIONS                                              *ctrlproj-options*
+OPTIONS                       *ctrlproj-options*
 
 Overview:~
 
@@ -101,81 +101,81 @@ configuration file
 -------------------------------------------------------------------------------
 Detailed descriptions and default values:~
 
-                                         *'g:ctrlproj_readonly_enabled'*
+                     *'g:ctrlproj_readonly_enabled'*
 Set this to 0 to open files without readonly flag.
-    let g:ctrlproj_readonly_enabled = 1
+  let g:ctrlproj_readonly_enabled = 1
 
-                                         *'g:ctrlproj_open_extensions'*
+                     *'g:ctrlproj_open_extensions'*
 If you open files which have extensions contained in this list, they are
 opened in specified browser or PDF viewer or else.
-    let g:ctrlproj_open_extensions = ['html', 'pdf']
+  let g:ctrlproj_open_extensions = ['html', 'pdf']
 
-                                         *'g:ctrlproj_configuration_file'*
+                     *'g:ctrlproj_configuration_file'*
 This is the path which indicates the configuration file.
-    let g:ctrlproj_configuration_file = '~/.vim/.ctrlproj'
+  let g:ctrlproj_configuration_file = '~/.vim/.ctrlproj'
 
-                                         *'g:ctrlproj_paths'*
+                     *'g:ctrlproj_paths'*
 This list contains paths which are the candidates of this plug-in.
-    let g:ctrlproj_paths = []
+  let g:ctrlproj_paths = []
 
-                                         *'g:ctrlproj_src2test'*
+                     *'g:ctrlproj_src2test'*
 This list contains pairs of source and test patterns. By default this contains
 sample templates for Java, Scala and Ruby on rails. If you use your
 project-specific templates, override this value.
-    let g:ctrlproj_src2test = {
-        \ 'src/main/java/**/*.java': 'src/test/java/**/*Test.java',
-        \ 'src/main/scala/**/*.scala': 'src/test/scala/**/*Test.scala',
-        \ 'app/admin/*.rb': 'spec/features/admin/*_spec.rb',
-        \ 'app/controllers/*_controller.rb': 'spec/controllers/*_controller_spec.rb',
-        \ 'app/decorators/*_decorator.rb': 'spec/decorators/*_decorator_spec.rb',
-        \ 'app/helpers/*_helper.rb': 'spec/helpers/*_helper_spec.rb',
-        \ 'app/mailers/*_mailers.rb': 'spec/mailers/*_mailer_spec.rb',
-        \ 'app/models/*.rb': 'spec/models/*_spec.rb',
-        \ 'app/workers/*.rb': 'spec/workers/*_spec.rb'
-        \ }
+  let g:ctrlproj_src2test = {
+    \ 'src/main/java/**/*.java': 'src/test/java/**/*Test.java',
+    \ 'src/main/scala/**/*.scala': 'src/test/scala/**/*Test.scala',
+    \ 'app/admin/*.rb': 'spec/features/admin/*_spec.rb',
+    \ 'app/controllers/*_controller.rb': 'spec/controllers/*_controller_spec.rb',
+    \ 'app/decorators/*_decorator.rb': 'spec/decorators/*_decorator_spec.rb',
+    \ 'app/helpers/*_helper.rb': 'spec/helpers/*_helper_spec.rb',
+    \ 'app/mailers/*_mailers.rb': 'spec/mailers/*_mailer_spec.rb',
+    \ 'app/models/*.rb': 'spec/models/*_spec.rb',
+    \ 'app/workers/*.rb': 'spec/workers/*_spec.rb'
+    \ }
 
 
 ===============================================================================
-COMMANDS                                            *ctrlproj-commands*
+COMMANDS                      *ctrlproj-commands*
 
-                                                         *:Ctrlproj*
+                             *:Ctrlproj*
 :Ctrlproj
-    Open CtrlP interface with specified paths.
+  Open CtrlP interface with specified paths.
 
-                                                         *:CtrlprojLastDir*
+                             *:CtrlprojLastDir*
 :CtrlprojLastDir
-    Open CtrlP interface in last selected directory.
+  Open CtrlP interface in last selected directory.
 
-                                                         *:CtrlprojEdit*
+                             *:CtrlprojEdit*
 :CtrlprojEdit
-    Open the configuration file (~/.vim/.ctrlproj by default).
+  Open the configuration file (~/.vim/.ctrlproj by default).
 
-                                                         *:CtrlprojAlternate*
+                             *:CtrlprojAlternate*
 :CtrlprojAlternate
-    Toggle current buffer to the files which have same names but different
-    extensions.
+  Toggle current buffer to the files which have same names but different
+  extensions.
 
-                                                         *:CtrlprojSwitch*
+                             *:CtrlprojSwitch*
 :CtrlprojSwitch
-    Toggle current focused code to its test or vice versa. First this command
-    try to switch the current buffer by using g:ctrlproj_srctest variable. If
-    it fails, applies built-in function which switch between code and its
-    test.
+  Toggle current focused code to its test or vice versa. First this command
+  try to switch the current buffer by using g:ctrlproj_srctest variable. If
+  it fails, applies built-in function which switch between code and its
+  test.
 
-                                                         *:CtrlprojRemoveBuffers*
+                             *:CtrlprojRemoveBuffers*
 :CtrlprojRemoveBuffers
-    Remove all buffers included in the current project.
+  Remove all buffers included in the current project.
 
 The last three commands utilizes the files which are cached by CtrlP.
 
 ===============================================================================
-MAPPINGS                                            *ctrlproj-mappings*
+MAPPINGS                      *ctrlproj-mappings*
 
 This plug-in defines no mappings. If you want to know mappings in CtrlP
 interface, read CtrlP help.
 
 ===============================================================================
-LICENSE                                            *ctrlproj-license*
+LICENSE                     *ctrlproj-license*
 
 Copyright(c) 2015 Takatoshi Iwasa
 Released under the MIT license
