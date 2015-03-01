@@ -12,10 +12,10 @@ CONTENTS                      *ctrlproj-contents*
 
   1. Intro.................................|ctrlproj-intro|
   2. Usage.................................|ctrlproj-usage|
-  2. Options...............................|ctrlproj-options|
-  3. Commands..............................|ctrlproj-commands|
-  4. Mappings..............................|ctrlproj-mappings|
-  5. License...............................|ctrlproj-license|
+  3. Options...............................|ctrlproj-options|
+  4. Commands..............................|ctrlproj-commands|
+  5. Mappings..............................|ctrlproj-mappings|
+  6. License...............................|ctrlproj-license|
 
 ===============================================================================
 INTRO                         *ctrlproj-intro*
@@ -97,6 +97,7 @@ Vim.
 |ctrlproj_configuration_file|.....The path which indicates the
 configuration file
 |ctrlproj_paths|..................The candidates of this plug-in.
+|ctrlproj_src2test|...............The dictionary of pairs of source and test
 
 -------------------------------------------------------------------------------
 Detailed descriptions and default values:~
