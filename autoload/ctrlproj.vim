@@ -19,6 +19,10 @@ if !exists('g:ctrlproj_readonly_enabled')
   let g:ctrlproj_readonly_enabled = 1
 en
 
+if !exists('g:ctrlproj_refresh_enabled')
+  let g:ctrlproj_refresh_enabled = 1
+endif
+
 if !exists('g:ctrlproj_open_extensions')
   let g:ctrlproj_open_extensions = ['html', 'pdf']
 en
@@ -181,6 +185,7 @@ fu! ctrlproj#accept(mode, str)
   if a:mode == 'h'
     silent exe "norm! :e ".a:str."\<cr>"
   elsei a:mode == 't'
+    if g:ctrlproj_refresh_enabled | cal ctrlp#clr() | en
     cal ctrlproj#remove_buffers_inside_project()
     silent exe "norm! :cd ".a:str."\<cr>"
   elsei a:mode == 'v'
