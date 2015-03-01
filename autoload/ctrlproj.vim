@@ -4,7 +4,15 @@ en
 let g:loaded_ctrlproj = 1
 
 if !exists('g:ctrlproj_paths')
-  let g:ctrlproj_paths = []
+  if has('unix')
+    let g:ctrlproj_paths = [
+      \ '/usr/lib/ruby/[1-9]\+\(\.[1-9]\+\)*',
+      \ '/usr/lib/python[1-9]\+\(\.[1-9]\+\)*',
+      \ '/usr/lib/perl/[1-9]\+\(\.[1-9]\+\)*'
+      \ ]
+  else
+    let g:ctrlproj_paths = []
+  en
 en
 
 if !exists('g:ctrlproj_readonly_enabled')
