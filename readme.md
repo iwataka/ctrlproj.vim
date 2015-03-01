@@ -170,6 +170,23 @@ The last three commands utilizes the files which are cached by CtrlP.
       let g:ctrlproj_paths = []
     endif
 
++ `g:ctrlproj_src2test`
+
+  This list contains paris of source and test patterns. By default this contains
+  sample templates for Java, Scala and Ruby on rails. If you use your
+  project-specific templates, override this value.
+    let g:ctrlproj_src2test = {
+      \ 'src/main/java/**/*.java': 'src/test/java/**/*Test.java',
+      \ 'src/main/scala/**/*.scala': 'src/test/scala/**/*Test.scala',
+      \ 'app/admin/*.rb': 'spec/features/admin/*_spec.rb',
+      \ 'app/controllers/*_controller.rb': 'spec/controllers/*_controller_spec.rb',
+      \ 'app/decorators/*_decorator.rb': 'spec/decorators/*_decorator_spec.rb',
+      \ 'app/helpers/*_helper.rb': 'spec/helpers/*_helper_spec.rb',
+      \ 'app/mailers/*_mailers.rb': 'spec/mailers/*_mailer_spec.rb',
+      \ 'app/models/*.rb': 'spec/models/*_spec.rb',
+      \ 'app/workers/*.rb': 'spec/workers/*_spec.rb'
+      \ }
+
 ## Requirement
 
 + Of course [ctrlp.vim](https://github.com/kien/ctrlp.vim)
