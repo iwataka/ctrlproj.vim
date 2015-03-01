@@ -17,7 +17,7 @@ At present, this project includes these features:
 
 + switch between projects
 + toggle between files with same names but different extensions (i.e.
-    .h<->.c/.cpp)
+  .h<->.c/.cpp)
 + toggle between code and its test (experimental)
 + kill all buffers in working project
 + open files in any other projects
@@ -30,27 +30,27 @@ You can use your favorite package manager.
 
 + Pathogen
 
-    ```
-    git clone http://github.com/iwataka/ctrlproj.vim ~/.vim/bundle/ctrlproj.vim
-    ```
+  ```
+  git clone http://github.com/iwataka/ctrlproj.vim ~/.vim/bundle/ctrlproj.vim
+  ```
 
 + vim-plug
 
-    ```vim
-    Plug 'iwataka/ctrlproj.vim'
-    ```
+  ```vim
+  Plug 'iwataka/ctrlproj.vim'
+  ```
 
 + NeoBundle
 
-    ```vim
-    NeoBundle 'iwataka/ctrlproj.vim'
-    ```
+  ```vim
+  NeoBundle 'iwataka/ctrlproj.vim'
+  ```
 
 + Vundle
 
-    ```vim
-    NeoBundle 'iwataka/ctrlproj.vim'
-    ```
+  ```vim
+  NeoBundle 'iwataka/ctrlproj.vim'
+  ```
 
 ## Usage
 
@@ -59,25 +59,29 @@ libraries or application sources in `~/.vim/.ctrlproj` file (recommended) or
 `g:ctrlproj_paths` variable. If you prefer the former, you should create `.ctrlproj`
 file in `~/.vim` and write like below:
 
-    # Write
-    # Some
-    # Comments
-    /path/to/specified/project
+  ```
+  # Write
+  # Some
+  # Comments
+  /path/to/specified/project
 
-    # Additional comment
-    /path/to/specified/directory/*
+  # Additional comment
+  /path/to/specified/directory/*
 
-    # You can also exclude specified directory by writing like this
-    ! /path/to/project/you/want/to/exclude
+  # You can also exclude specified directory by writing like this
+  ! /path/to/project/you/want/to/exclude
+  ```
 
 If you prefer the latter, write in your .vimrc like this:
 
-    let g:ctrlproj_paths = [
-        \ '/path/to/specified/project',
-        \ '/path/to/specified/directory/*',
-        " You want to exclude specified directory, put '!' at the head.
-        \ '! /path/to/project/you/want/to/exclude'
-    ]
+  ```
+  let g:ctrlproj_paths = [
+    \ '/path/to/specified/project',
+    \ '/path/to/specified/directory/*',
+    " You want to exclude specified directory, put '!' at the head.
+    \ '! /path/to/project/you/want/to/exclude'
+  ]
+  ```
 
 That's all!
 Run the command `:Ctrlproj` and you get CtrlP interface with paths you registered
@@ -92,15 +96,15 @@ interface, you should refer to its help
 Then you can press these keys to select one of the projects:
 
 + `<enter>` to get CtrlP interface again in the selected project.  You can
-    select files by default CtrlP's key-binds in it, but they are opened by
-    open-command if you select ones which have the extensions like pdf, html or
-    something like that.
+  select files by default CtrlP's key-binds in it, but they are opened by
+  open-command if you select ones which have the extensions like pdf, html or
+  something like that.
 
 + `<c-t>` to delete all buffers in the current project and move the current
-    directory to the selected project.
+  directory to the selected project.
 
 + `<c-v>` to move the current directory to the selected project without removing
-    buffers.
+  buffers.
 
 + `<c-x>` to open the default file-explorer in the selected project.
 
@@ -108,24 +112,24 @@ More additional commands are provided by Ctrlproj:
 
 + `:CtrlprojLastDir`
 
-    Open CtrlP interface in the last selected directory.
+  Open CtrlP interface in the last selected directory.
 
 + `:CtrlprojEdit`
 
-    Open the file you register the paths.
+  Open the file you register the paths.
 
 + `:CtrlprojAlternate`
 
-    Toggle current buffer to the files which have same names but different
-    extensions.
+  Toggle current buffer to the files which have same names but different
+  extensions.
 
 + `:CtrlprojSwitch`
 
-    Toggle current focused code to its test or vice versa.
+  Toggle current focused code to its test or vice versa.
 
 + `:CtrlprojRemoveBuffers`
 
-    Remove all buffers included in the current project.
+  Remove all buffers included in the current project.
 
 The last three commands utilizes the files which are cached by CtrlP.
 
@@ -133,27 +137,27 @@ The last three commands utilizes the files which are cached by CtrlP.
 
 + `g:ctrlproj_readonly_enabled`
 
-    Set this to 0 to open files without readonly flag (default: 1).
+  Set this to 0 to open files without readonly flag (default: 1).
 
 + `g:ctrlproj_refresh_enabled`
 
-    Set this to 0 to disable refreshing cache files when moving the current
-    directory with removing buffers (default: 1)
+  Set this to 0 to disable refreshing cache files when moving the current
+  directory with removing buffers (default: 1)
 
 + `g:ctrlproj_open_extensions`
 
-    If you open files which have extensions contained in this list, they are
-    opened by "open-command" (default: ['html', 'pdf']).
+  If you open files which have extensions contained in this list, they are
+  opened by "open-command" (default: ['html', 'pdf']).
 
 + `g:ctrlproj_configuration_file`
 
-    If you want to write paths in other file, set this to the path (default:
-    '~/.vim/.ctrlproj').
+  If you want to write paths in other file, set this to the path (default:
+  '~/.vim/.ctrlproj').
 
 + `g:ctrlproj_paths`
 
-    This list contains paths which are the candidates of this plug-in (default:
-    []).
+  This list contains paths which are the candidates of this plug-in (default:
+  []).
 
 ## Requirement
 
@@ -162,10 +166,10 @@ The last three commands utilizes the files which are cached by CtrlP.
 + xdg-open command (if you use Linux OS)
 
 + [ctrlp-py-matcher](https://github.com/FelikZ/ctrlp-py-matcher)(optional, but
-    recommended)
+  recommended)
 
 + [the_silver_searhcer](https://github.com/ggreer/the_silver_searcher)(optional,
-    but recommended)
+  but recommended)
 
 ## Bugs & Improvements
 
