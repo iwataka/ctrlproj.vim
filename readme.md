@@ -124,9 +124,11 @@ More additional commands are provided by Ctrlproj:
   extensions.
 
 + `:CtrlprojVAlternate`
+
   Almost Same as `:CtrlprojAlternate`, but open files with `:vsplit` command.
 
 + `:CtrlprojSAlternate`
+
   Almost Same as `:CtrlprojAlternate`, but open files with `:split` command.
 
 + `:CtrlprojSwitch`
@@ -136,9 +138,11 @@ More additional commands are provided by Ctrlproj:
   fails, applies built-in function which switch between code and its test.
 
 + `:CtrlprojVSwitch`
+
   Almost Same as `:CtrlprojSwitch`, but open files with `:vsplit` command.
 
 + `:CtrlprojSSwitch`
+
   Almost Same as `:CtrlprojSwitch`, but open files with `:split` command.
 
 + `:CtrlprojRemoveBuffers`
