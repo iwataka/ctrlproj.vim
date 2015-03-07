@@ -51,27 +51,39 @@ en
 
 let s:lastdir = ''
 
-fu! ctrlproj#switch_current_buffer()
+fu! s:open_cmd(type)
+  if a:type == 'v'
+    retu 'vsplit'
+  elsei a:type == 's'
+    retu 'split'
+  else
+    retu 'e'
+  endif
+endfu
+
+fu! ctrlproj#switch_current_buffer(type)
   let l:bufname = fnamemodify(bufname("%"), ":p")
   let l:alt_name = ctrlproj#utils#switch_by_template(l:bufname, g:ctrlproj_src2test)
+  let l:open_cmd = s:open_cmd(a:type)
   if l:alt_name != ''
-    silent exe "norm! :e ".l:alt_name."\<cr>"
+    silent exe "norm! :".l:open_cmd." ".l:alt_name."\<cr>"
   else
     let l:files = ctrlproj#switch('.', '%')
     if len(l:files) == 0
       echo "File not found."
     else
       for fl in l:files
-        silent exe "norm! :e ".fl."\<cr>"
+        silent exe "norm! :".l:open_cmd." ".fl."\<cr>"
       endfo
     en
   en
 endf
 
-fu! ctrlproj#alternate_current_buffer()
+fu! ctrlproj#alternate_current_buffer(type)
   let l:files = ctrlproj#alternate('.', '%')
+  let l:open_cmd = s:open_cmd(a:type)
   for fl in l:files
-    silent exe "norm! :e ".fl."\<cr>"
+    silent exe "norm! :".l:open_cmd." ".fl."\<cr>"
   endfo
 endf
 
