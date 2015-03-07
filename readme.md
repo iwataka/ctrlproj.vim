@@ -123,11 +123,23 @@ More additional commands are provided by Ctrlproj:
   Toggle current buffer to the files which have same names but different
   extensions.
 
++ `:CtrlprojVAlternate`
+  Almost Same as `:CtrlprojAlternate`, but open files with `:vsplit` command.
+
++ `:CtrlprojSAlternate`
+  Almost Same as `:CtrlprojAlternate`, but open files with `:split` command.
+
 + `:CtrlprojSwitch`
 
   Toggle current focused code to its test or vice versa. First this command try
   to switch the current buffer by using `g:ctrlproj_src2test` variable. If it
   fails, applies built-in function which switch between code and its test.
+
++ `:CtrlprojVSwitch`
+  Almost Same as `:CtrlprojSwitch`, but open files with `:vsplit` command.
+
++ `:CtrlprojSSwitch`
+  Almost Same as `:CtrlprojSwitch`, but open files with `:split` command.
 
 + `:CtrlprojRemoveBuffers`
 
