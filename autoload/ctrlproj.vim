@@ -172,6 +172,12 @@ fu! ctrlproj#remove_buffers_inside_project()
   cal ctrlproj#remove_buffers(l:cd)
 endf
 
+fu! ctrlproj#cd_root()
+  cal ctrlp#setpathmode('r', fnamemodify('.', ':p'))
+  let l:root = fnamemodify('.', ':p')
+  exe "normal! :cd ".l:root."\<cr>"
+endfu
+
 call add(g:ctrlp_ext_vars, {
   \ 'init': 'ctrlproj#init()',
   \ 'accept': 'ctrlproj#accept',
