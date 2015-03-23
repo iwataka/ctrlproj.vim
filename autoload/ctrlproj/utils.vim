@@ -111,31 +111,6 @@ fu! ctrlproj#utils#switch_by_template(path, dict)
   retu ''
 endf
 
-" returns
-" [filename]:[line number] [content]
-fu! ctrlproj#utils#parse_ag_result(lines)
-  let l:result = []
-  let l:rest_lines = a:lines
-  wh len(a:lines) != 0
-    let l:next_empty_index = -1
-    let l:index = 0
-    let l:rest_length = len(l:rest_lines)
-    wh l:next_empty_index == -1
-      if l:index >= l:rest_length || l:rest_lines[l:index] == ''
-        let l:next_empty_index = l:index
-        break
-      else
-        l:index += 1
-      endif
-    endwh
-    let l:fname = l:rest_lines[0]
-    for line in l:rest_lines[1:(l:next_empty_index - 1)]
-      call add(l:result, l:fname.':'.line)
-    endfor
-  endwh
-  retu l:result
-endfu
-
 let s:open_command = ''
 if has('unix')
   if executable('xdg-open')
