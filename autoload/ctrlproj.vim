@@ -62,19 +62,19 @@ fu! s:open_cmd(type)
 endfu
 
 fu! ctrlproj#switch_current_buffer(type)
-  let l:bufname = fnamemodify(bufname("%"), ":p")
-  let l:alt_name = ctrlproj#utils#switch_by_template(l:bufname, g:ctrlproj_src2test)
-  let l:open_cmd = s:open_cmd(a:type)
-  if l:alt_name != ''
-    silent exe "norm! :".l:open_cmd." ".l:alt_name."\<cr>"
+  let l:files = ctrlproj#switch('.', '%')
+  if len(l:files) != 0
+    for fl in l:files
+      silent exe "norm! :".l:open_cmd." ".fl."\<cr>"
+    endfo
   else
-    let l:files = ctrlproj#switch('.', '%')
-    if len(l:files) == 0
-      echo "File not found."
+    let l:bufname = fnamemodify(bufname("%"), ":p")
+    let l:alt_name = ctrlproj#utils#switch_by_template(l:bufname, g:ctrlproj_src2test)
+    let l:open_cmd = s:open_cmd(a:type)
+    if l:alt_name != ''
+      silent exe "norm! :".l:open_cmd." ".l:alt_name."\<cr>"
     else
-      for fl in l:files
-        silent exe "norm! :".l:open_cmd." ".fl."\<cr>"
-      endfo
+      echoe 'Not found'
     en
   en
 endf
