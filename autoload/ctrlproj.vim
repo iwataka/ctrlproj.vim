@@ -51,28 +51,32 @@ en
 
 let s:lastdir = ''
 
-fu! s:open_cmd(type)
-  if a:type == 'v'
-    retu 'vsplit'
-  elsei a:type == 's'
-    retu 'split'
+fu! s:Open(file, type)
+  if a:type =~ '\(v\|vsplit\)'
+    let l:cmd = 'vsplit'
+  elsei a:type =~ '\(s\|split\)'
+    let l:cmd = 'split'
   else
-    retu 'e'
+    let l:cmd = 'edit'
   endif
+  let l:dir = fnamemodify(a:file, ':p:h')
+  if !isdirectory(l:dir)
+    silent exe "norm! :!mkdir -p ".l:dir."\<cr>"
+  endif
+  silent exe "norm! :".l:cmd." ".a:file."\<cr>"
 endfu
 
 fu! ctrlproj#switch_current_buffer(type)
   let l:files = ctrlproj#switch('.', '%')
   if len(l:files) != 0
-    for fl in l:files
-      silent exe "norm! :".l:open_cmd." ".fl."\<cr>"
+    for l:fl in l:files
+      call s:Open(l:fl, a:type)
     endfo
   else
     let l:bufname = fnamemodify(bufname("%"), ":p")
     let l:alt_name = ctrlproj#utils#switch_by_template(l:bufname, g:ctrlproj_src2test)
-    let l:open_cmd = s:open_cmd(a:type)
     if l:alt_name != ''
-      silent exe "norm! :".l:open_cmd." ".l:alt_name."\<cr>"
+      call s:Open(l:alt_name, a:type)
     else
       echoe 'Not found'
     en
@@ -187,10 +191,10 @@ call add(g:ctrlp_ext_vars, {
   \ })
 
 fu! ctrlproj#init()
-  retu ctrlproj#utils#parse_file(g:ctrlproj_configuration_path) + s:read_var_config()
+  retu ctrlproj#utils#parse_file(g:ctrlproj_configuration_path) + s:Read_var_config()
 endf
 
-fu! s:read_var_config()
+fu! s:Read_var_config()
   if exists('g:ctrlproj_paths')
     retu ctrlproj#utils#parse_config(g:ctrlproj_paths)
   el
