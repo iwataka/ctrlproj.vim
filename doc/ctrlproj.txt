@@ -195,6 +195,10 @@ COMMANDS                      *ctrlproj-commands*
 :CtrlprojRemoveBuffers
   Remove all buffers included in the current project.
 
+                             *:CtrlprojRooter*
+:CtrlprojRooter
+  Change the current directory to the project root.
+
 The last three commands utilizes the files which are cached by CtrlP.
 
 ===============================================================================

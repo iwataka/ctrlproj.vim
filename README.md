@@ -49,7 +49,7 @@ You can use your favorite package manager.
 + Vundle
 
   ```vim
-  NeoBundle 'iwataka/ctrlproj.vim'
+  Plugin 'iwataka/ctrlproj.vim'
   ```
 
 ## Usage
@@ -148,6 +148,10 @@ More additional commands are provided by Ctrlproj:
 + `:CtrlprojRemoveBuffers`
 
   Remove all buffers included in the current project.
+
++ `:CtrlprojRooter`
+
+  Change the current directory to the project root.
 
 The last three commands utilizes the files which are cached by CtrlP.
 
