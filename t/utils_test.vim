@@ -101,3 +101,18 @@ describe 'ctrlproj#utils#switch_by_templates'
     Expect ctrlproj#utils#switch_by_template(dec_spec, dict) == dec
   end
 end
+
+describe 'ctrlproj#utils#switch_by_regexp'
+  it 'can switch in a project in Java and Scala'
+    let cands = [
+      \ 'path/to/sub/proj/src/main/java/foo/package/Bar.java',
+      \ 'path/to/sub/proj/src/test/scala/foo/package/BarTest.scala',
+      \ 'path/to/sub/proj/src/main/java/foo/package/Foo.java',
+      \ 'path/to/sub/proj/src/test/scala/foo/package/FooTest.scala',
+      \ ]
+    let main = 'path/to/sub/proj/src/main/java/foo/package/Bar.java'
+    let test = 'path/to/sub/proj/src/test/scala/foo/package/BarTest.scala'
+    Expect ctrlproj#utils#switch_by_regexp(main, cands) == [test]
+    Expect ctrlproj#utils#switch_by_regexp(test, cands) == [main]
+  end
+end

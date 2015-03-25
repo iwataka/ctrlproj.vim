@@ -112,7 +112,7 @@ fu! ctrlproj#utils#switch_by_template(path, dict)
 endf
 
 fu! ctrlproj#utils#switch_by_regexp(file, cands) 
-  let l:test_mark = '\(\(test\)\|\(spec\)\|\(Test\)\|\(Spec\)\)'
+  let l:test_mark = '\(\(_test\)\|\(_spec\)\|\(Test\)\|\(Spec\)\)'
   let l:result = []
   let l:expanded_filename = expand(a:file)
   let l:rootname = fnamemodify(l:expanded_filename, ':t:r')
@@ -123,7 +123,7 @@ fu! ctrlproj#utils#switch_by_regexp(file, cands)
     let l:ex = fnamemodify(fl, ':t:e')
     let l:str = substitute(l:rootname, l:test_mark, '', '')
     let l:is_src = l:rt !~ l:test_mark
-    if l:ex == l:extension && l:rt =~ l:str && xor(l:is_source, l:is_src)
+    if l:rt =~ l:str && xor(l:is_source, l:is_src)
       cal add(l:result, fl)
     en
   endfo
