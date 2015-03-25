@@ -1,6 +1,6 @@
 # ctrlproj.vim
 
-![Build Status](https://travis-ci.org/iwataka/ctrlproj.vim.svg?branch=master)
+[![Build Status](https://travis-ci.org/iwataka/ctrlproj.vim.svg?branch=master)](https://travis-ci.org/iwataka/ctrlproj.vim)
 
 ## Introduction
 
