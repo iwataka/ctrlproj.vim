@@ -111,6 +111,25 @@ fu! ctrlproj#utils#switch_by_template(path, dict)
   retu ''
 endf
 
+fu! ctrlproj#utils#switch_by_regexp(file, cands) 
+  let l:test_mark = '\(\(test\)\|\(spec\)\|\(Test\)\|\(Spec\)\)'
+  let l:result = []
+  let l:expanded_filename = expand(a:file)
+  let l:rootname = fnamemodify(l:expanded_filename, ':t:r')
+  let l:extension = fnamemodify(l:expanded_filename, ':t:e')
+  let l:is_source = l:rootname !~ l:test_mark
+  for fl in a:cands
+    let l:rt = fnamemodify(fl, ':t:r')
+    let l:ex = fnamemodify(fl, ':t:e')
+    let l:str = substitute(l:rootname, l:test_mark, '', '')
+    let l:is_src = l:rt !~ l:test_mark
+    if l:ex == l:extension && l:rt =~ l:str && xor(l:is_source, l:is_src)
+      cal add(l:result, fl)
+    en
+  endfo
+  retu l:result
+endfu
+
 let s:open_command = ''
 if has('unix')
   if executable('xdg-open')

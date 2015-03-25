@@ -67,6 +67,7 @@ fu! s:Open(file, type)
 endfu
 
 fu! ctrlproj#switch_current_buffer(type)
+  cal ctrlp#setpathmode('r', fnamemodify('.', ':p'))
   let l:files = ctrlproj#switch('.', '%')
   if len(l:files) != 0
     for l:fl in l:files
@@ -92,23 +93,8 @@ fu! ctrlproj#alternate_current_buffer(type)
 endf
 
 fu! ctrlproj#switch(path, file)
-  let l:test_mark = '\(\(test\)\|\(spec\)\|\(Test\)\|\(Spec\)\)'
-  let l:files = ctrlproj#files(a:path)
-  let l:result = []
-  let l:expanded_filename = expand(a:file)
-  let l:rootname = fnamemodify(l:expanded_filename, ':t:r')
-  let l:extension = fnamemodify(l:expanded_filename, ':t:e')
-  let l:is_source = l:rootname !~ l:test_mark
-  for fl in l:files
-    let l:rt = fnamemodify(fl, ':t:r')
-    let l:ex = fnamemodify(fl, ':t:e')
-    let l:str = substitute(l:rootname, l:test_mark, '', '')
-    let l:is_src = l:rt !~ l:test_mark
-    if l:ex == l:extension && l:rt =~ l:str && xor(l:is_source, l:is_src)
-      cal add(l:result, fl)
-    en
-  endfo
-  retu l:result
+  let l:cands = ctrlproj#files(a:path)
+  retu ctrlproj#utils#switch_by_regexp(a:file,  l:cands)
 endf
 
 fu! ctrlproj#alternate(path, file)
