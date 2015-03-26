@@ -223,6 +223,7 @@ fu! ctrlproj#grep(path, ...)
     let l:cd = getcwd()
     exe "cd ".a:path
     silent exe "noa grep! '".l:keyword."'"
+    exe "redraw!"
     if a:path == "." || a:path == fnamemodify(".", ":p")
       cal ctrlp#init(ctrlp#quickfix#id())
     else
