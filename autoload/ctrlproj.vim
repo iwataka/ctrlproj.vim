@@ -204,12 +204,16 @@ fu! ctrlproj#accept(mode, str)
   en
 endf
 
-fu! ctrlproj#grep(readonly)
-  let l:keyword = input("Keyword? ")
+fu! ctrlproj#grep(readonly, use_last_keyword)
   let l:qflist = getqflist()
-  let l:grep_cmd = "silent exe \"norm! :grep! '".l:keyword."'\\<cr>\""
-  echom l:grep_cmd
-  silent exe "norm! :noautocmd ".l:grep_cmd."\<cr>"
+  if a:use_last_keyword && exists("s:qflist")
+    cal setqflist(s:qflist)
+  else
+    let l:keyword = input("Keyword? ")
+    let l:grep_cmd = "silent exe \"norm! :grep! '".l:keyword."'\\<cr>\""
+    silent exe "norm! :noautocmd ".l:grep_cmd."\<cr>"
+    let s:qflist = getqflist()
+  endif
   if a:readonly
     cal ctrlp#init(ctrlp#qfref#id())
   else
