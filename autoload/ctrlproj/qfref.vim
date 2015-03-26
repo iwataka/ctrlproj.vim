@@ -4,7 +4,7 @@ endif
 let g:loaded_ctrlproj_qfref = 1
 
 call add(g:ctrlp_ext_vars, {
-  \ 'init': 'ctrlp#quickref#init()',
+  \ 'init': 'ctrlp#quickfix#init()',
   \ 'accept': 'ctrlproj#qfref#accept',
   \ 'lname': 'quickfix',
   \ 'sname': 'qfx',
@@ -20,7 +20,7 @@ fu! ctrlproj#qfref#accept(mode, str)
       au BufEnter * setlocal readonly
     aug END
   endif
-  call call('ctrlp#quickref#accept', [a:mode, a:str])
+  call call('ctrlp#quickfix#accept', [a:mode, a:str])
   if exists("#ctrlproj-qfref")
     au! ctrlproj-qfref
   endif

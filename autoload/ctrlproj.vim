@@ -191,7 +191,8 @@ endf
 fu! ctrlproj#accept(mode, str)
   call ctrlp#exit()
   if a:mode == 'h'
-    silent exe "norm! :e ".a:str."\<cr>"
+    silent exe "lcd ".a:str
+    cal ctrlproj#grep(1, 0, "")
   elsei a:mode == 't'
     if g:ctrlproj_refresh_enabled | cal ctrlp#clr() | en
     cal ctrlproj#remove_buffers_inside_project()
@@ -215,7 +216,7 @@ fu! ctrlproj#grep(readonly, use_last_keyword, keyword)
     let s:qflist = getqflist()
   endif
   if a:readonly
-    cal ctrlp#init(ctrlp#qfref#id())
+    cal ctrlp#init(ctrlproj#qfref#id())
   else
     cal ctrlp#init(ctrlp#quickfix#id())
   endif
