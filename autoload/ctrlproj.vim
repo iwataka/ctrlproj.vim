@@ -35,6 +35,10 @@ if !exists('g:ctrlproj_configuration_path')
   en
 en
 
+if !exists('g:ctrlproj_grep_prompt_string')
+  let g:ctrlproj_grep_prompt_string = 'Keyword? '
+endif
+
 if !exists('g:ctrlproj_src2test')
   let g:ctrlproj_src2test = {
     \ 'src/main/java/**/*.java': 'src/test/java/**/*Test.java',
@@ -210,7 +214,7 @@ fu! ctrlproj#grep(readonly, use_last_keyword, keyword)
   if a:use_last_keyword && exists("s:qflist")
     cal setqflist(s:qflist)
   else
-    let l:keyword = a:keyword == "" ? input("Keyword? ") : a:keyword
+    let l:keyword = a:keyword == "" ? input(g:ctrlproj_grep_prompt_string) : a:keyword
     let l:grep_cmd = "silent exe \"norm! :grep! '".l:keyword."'\\<cr>\""
     silent exe "norm! :noautocmd ".l:grep_cmd."\<cr>"
     let s:qflist = getqflist()
