@@ -195,8 +195,7 @@ endf
 fu! ctrlproj#accept(mode, str)
   call ctrlp#exit()
   if a:mode == 'h'
-    silent exe "lcd ".a:str
-    cal ctrlproj#grep(1, 0, "")
+    cal ctrlproj#grep(a:str, "")
   elsei a:mode == 't'
     if g:ctrlproj_refresh_enabled | cal ctrlp#clr() | en
     cal ctrlproj#remove_buffers_inside_project()
@@ -209,8 +208,7 @@ fu! ctrlproj#accept(mode, str)
   en
 endf
 
-fu! ctrlproj#grep(readonly, ...)
-  let l:qflist = getqflist()
+fu! ctrlproj#grep(path, ...)
   if a:0 == 0
     let l:keyword = exists("s:keyword") ? s:keyword : ""
   else
@@ -219,14 +217,19 @@ fu! ctrlproj#grep(readonly, ...)
   if l:keyword == ""
     let l:keyword = input(g:ctrlproj_grep_prompt_string)
   endif
-  let l:grep_cmd = "silent exe \"grep! '".l:keyword."'\""
-  silent exe "noautocmd ".l:grep_cmd
-  if a:readonly
-    cal ctrlp#init(ctrlproj#qfref#id())
-  else
-    cal ctrlp#init(ctrlp#quickfix#id())
+  if l:keyword != ""
+    let l:qflist = getqflist()
+    let s:keyword = l:keyword
+    let l:cd = getcwd()
+    exe "cd ".a:path
+    silent exe "noa grep! '".l:keyword."'"
+    if a:path == "." || a:path == fnamemodify(".", ":p")
+      cal ctrlp#init(ctrlp#quickfix#id())
+    else
+      cal ctrlproj#qfref#init_with_path(l:cd)
+    endif
+    cal setqflist(l:qflist)
   endif
-  cal setqflist(l:qflist)
 endfu
 
 let s:id = g:ctrlp_builtins + len(g:ctrlp_ext_vars)
