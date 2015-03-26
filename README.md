@@ -55,9 +55,9 @@ You can use your favorite package manager.
 ## Usage
 
 After installing this plug-in, you should register some paths to your projects,
-libraries or application sources in `~/.vim/.ctrlproj` file (recommended) or
-`g:ctrlproj_paths` variable. If you prefer the former, you should create `.ctrlproj`
-file in `~/.vim` and write like below:
+libraries or application sources in `~/.vim/.ctrlproj` file or
+`g:ctrlproj_paths` variable. If you prefer the former, you should create
+`.ctrlproj` file in `~/.vim` and write like below:
 
   ```
   # Write
@@ -106,7 +106,7 @@ Then you can press these keys to select one of the projects:
 + `<c-v>` to move the current directory to the selected project without removing
   buffers.
 
-+ `<c-x>` to open the default file-explorer in the selected project.
++ `<c-x>` to do grep in the selected directory
 
 More additional commands are provided by Ctrlproj:
 
@@ -154,6 +154,14 @@ More additional commands are provided by Ctrlproj:
   Change the current directory to the project root.
 
 The last three commands utilizes the files which are cached by CtrlP.
+
++ `:CtrlprojGrep`
+
+  Do grep in the current directory.
+
++ `:CtrlprojGrepLastKeyword`
+
+  Do grep in the current directory by using the last keyword.
 
 ## Options
 
@@ -229,6 +237,14 @@ The last three commands utilizes the files which are cached by CtrlP.
       \ 'app/models/*.rb': 'spec/models/*_spec.rb',
       \ 'app/workers/*.rb': 'spec/workers/*_spec.rb'
       \ }
+    ```
+
++ `g:ctrlproj_grep_prompt_string`
+
+    This string is displayed when trying to do grep.
+
+    ```vim
+    let g:ctrlproj_grep_prompt_string = "Keyword? "
     ```
 
 ## Requirement

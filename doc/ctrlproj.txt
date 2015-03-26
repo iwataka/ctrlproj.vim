@@ -84,7 +84,7 @@ directory to the selected project.
 + <c-v> to move the current directory to the selected project without
 removing buffers
 
-+ <c-x> to open the default file-explorer in the selected project.
++ <c-x> to do grep in the selected directory
 
 ===============================================================================
 OPTIONS                       *ctrlproj-options*
@@ -147,6 +147,9 @@ project-specific templates, override this value.
     \ 'app/workers/*.rb': 'spec/workers/*_spec.rb'
     \ }
 
+                     *'g:ctrlproj_grep_prompt_string*
+This string is displayed when trying to do grep.
+let g:ctrlproj_grep_prompt_string = "Keyword? "
 
 ===============================================================================
 COMMANDS                      *ctrlproj-commands*
@@ -198,6 +201,14 @@ COMMANDS                      *ctrlproj-commands*
                              *:CtrlprojRooter*
 :CtrlprojRooter
   Change the current directory to the project root.
+
+                             *:CtrlprojGrep*
+:CtrlprojGrep
+  Do grep in the current directory.
+
+                             *:CtrlprojGrepLastKeyword*
+:CtrlprojGrepLastKeyword
+  Do grep in the current directory by using the last keyword.
 
 The last three commands utilizes the files which are cached by CtrlP.
 
