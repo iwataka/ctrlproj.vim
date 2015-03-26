@@ -204,6 +204,20 @@ fu! ctrlproj#accept(mode, str)
   en
 endf
 
+fu! ctrlproj#grep(readonly)
+  let l:keyword = input("Keyword? ")
+  let l:qflist = getqflist()
+  let l:grep_cmd = "silent exe \"norm! :grep! '".l:keyword."'\\<cr>\""
+  echom l:grep_cmd
+  silent exe "norm! :noautocmd ".l:grep_cmd."\<cr>"
+  if a:readonly
+    cal ctrlp#init(ctrlp#qfref#id())
+  else
+    cal ctrlp#init(ctrlp#quickfix#id())
+  endif
+  cal setqflist(l:qflist)
+endfu
+
 let s:id = g:ctrlp_builtins + len(g:ctrlp_ext_vars)
 
 fu! ctrlproj#id()

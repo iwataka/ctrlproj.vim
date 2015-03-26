@@ -9,14 +9,4 @@ com! -bar CtrlprojVAlternate cal ctrlproj#alternate_current_buffer('v')
 com! -bar CtrlprojSAlternate cal ctrlproj#alternate_current_buffer('s')
 com! -bar CtrlprojRemoveBuffers cal ctrlproj#remove_buffers_inside_project()
 com! -bar CtrlprojRooter cal ctrlproj#cd_root()
-com! -bar CtrlprojGrep cal ctrlproj#grep()
-
-fu! ctrlproj#grep()
-  let l:keyword = input("Keyword? ")
-  let l:qflist = getqflist()
-  let l:grep_cmd = "silent exe \"norm! :grep! '".l:keyword."'\\<cr>\""
-  echom l:grep_cmd
-  silent exe "norm! :noautocmd ".l:grep_cmd."\<cr>"
-  cal ctrlp#init(ctrlp#quickfix#id())
-  cal setqflist(l:qflist)
-endfu
+com! -bar CtrlprojGrep cal ctrlproj#grep(0)
