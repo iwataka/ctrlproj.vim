@@ -90,9 +90,8 @@ endf
 
 fu! ctrlproj#alternate_current_buffer(type)
   let l:files = ctrlproj#alternate('.', '%')
-  let l:open_cmd = s:open_cmd(a:type)
   for fl in l:files
-    silent exe "norm! :".l:open_cmd." ".fl."\<cr>"
+    call s:Open(fl, a:type)
   endfo
 endf
 
