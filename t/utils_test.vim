@@ -109,6 +109,7 @@ describe 'ctrlproj#utils#switch_by_regexp'
       \ 'path/to/sub/proj/src/test/scala/foo/package/BarTest.scala',
       \ 'path/to/sub/proj/src/main/java/foo/package/Foo.java',
       \ 'path/to/sub/proj/src/test/scala/foo/package/FooTest.scala',
+      \ 'path/to/sub/proj/src/main/scala/foo/package/FooBar.scala'
       \ ]
     let main = 'path/to/sub/proj/src/main/java/foo/package/Bar.java'
     let test = 'path/to/sub/proj/src/test/scala/foo/package/BarTest.scala'

@@ -118,12 +118,13 @@ fu! ctrlproj#utils#switch_by_regexp(file, cands)
   let l:rootname = fnamemodify(l:expanded_filename, ':t:r')
   let l:extension = fnamemodify(l:expanded_filename, ':t:e')
   let l:is_source = l:rootname !~ l:test_mark
+  let l:string = substitute(l:rootname, l:test_mark, '', '')
   for fl in a:cands
     let l:rt = fnamemodify(fl, ':t:r')
     let l:ex = fnamemodify(fl, ':t:e')
-    let l:str = substitute(l:rootname, l:test_mark, '', '')
     let l:is_src = l:rt !~ l:test_mark
-    if l:rt =~ l:str && xor(l:is_source, l:is_src)
+    let l:str = substitute(l:rt, l:test_mark, '', '')
+    if l:string =~ l:str && xor(l:is_source, l:is_src)
       cal add(l:result, fl)
     en
   endfo
