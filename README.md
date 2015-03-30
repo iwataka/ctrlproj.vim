@@ -253,8 +253,8 @@ The last three commands utilizes the files which are cached by CtrlP.
 
 + xdg-open command (if you use Linux OS)
 
-+ [ctrlp-py-matcher](https://github.com/FelikZ/ctrlp-py-matcher)(optional, but
-  recommended)
++ [ctrlp-cmatcher](https://github.com/JazzCore/ctrlp-cmatcher)(optional, but
+    recommended)
 
 + [the_silver_searhcer](https://github.com/ggreer/the_silver_searcher)(optional,
   but recommended)
