@@ -59,7 +59,7 @@ describe 'ctrlproj#utils#convert_path_wildcard'
   it 'returns "\\(.*\\)src/main/java/\\(\\([^/]\\+/\\)*\\)\\([^/]\\+\\).java"'
     let path = 'src/main/java/**/*.java'
     let result = '\(.*\)src/main/java/\(\([^/]\+/\)*\)\([^/]\+\).java'
-    Expect ctrlproj#utils#convert_path_wildcard(path) == result
+    Expect ctrlproj#utils#convert_wildcard_to_regex(path) == result
 end
 
 describe 'ctrlproj#utils#switch_by_templates'
