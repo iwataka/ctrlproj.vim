@@ -87,7 +87,7 @@ That's all!
 Run the command `:Ctrlproj` and you get CtrlP interface with paths you registered
 before.
 
-![Demo](https://github.com/iwataka/images/blob/master/Ctrlproj.png)
+![Demo](http://res.cloudinary.com/iwataka/image/upload/v1510743941/Ctrlproj.png)
 
 You can narrow the choices by typing characters and press `<c-j>` to scroll
 down and `<c-k>` to scroll up. If you want to see more detail about CtrlP
